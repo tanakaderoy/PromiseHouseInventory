@@ -44,7 +44,7 @@ public class ReportWindow {
 		JButton btnMainMenu = new JButton("Main Menu");
 		btnMainMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				windowMain.MainWindow();
+				WindowMain.MainWindow();
 				frame.setVisible(false);
 			}
 		});

@@ -1,10 +1,10 @@
 import java.sql.*;
 
-public class mainPHI {
+public class MainPHI {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		windowMain.MainWindow();
+		WindowMain.MainWindow();
 		System.out.println("HeyFellas!");
 		Connection con = null;
 		Statement stmt = null;

@@ -8,7 +8,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class windowMain {
+public class WindowMain {
 
 	private JFrame frame;
 
@@ -19,7 +19,7 @@ public class windowMain {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					windowMain window = new windowMain();
+					WindowMain window = new WindowMain();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -31,7 +31,7 @@ public class windowMain {
 	/**
 	 * Create the application.
 	 */
-	public windowMain() {
+	public WindowMain() {
 		initialize();
 	}
 
