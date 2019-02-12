@@ -50,7 +50,8 @@ public class ScanWindow {
 		btnScanIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String serialNum = txtSerialCode.getText();
-				JOptionPane.showMessageDialog(null, serialNum + " has been scanned in.");
+				AddWindow.addWindow();
+				frame.setVisible(false);
 			}
 		});
 		btnScanIn.setBounds(56, 143, 112, 57);

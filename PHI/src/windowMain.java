@@ -73,7 +73,7 @@ public class windowMain {
 				frame.setVisible(false);
 			}
 		});
-		btnInventoryReports.setBounds(151, 194, 126, 39);
+		btnInventoryReports.setBounds(151, 194, 145, 39);
 		frame.getContentPane().add(btnInventoryReports);
 	}
 }
