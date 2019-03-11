@@ -40,7 +40,7 @@ public class WindowMain {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 997, 572);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -51,7 +51,7 @@ public class WindowMain {
 				frame.setVisible(false);
 			}
 		});
-		btnScanProduct.setBounds(151, 89, 116, 39);
+		btnScanProduct.setBounds(151, 89, 315, 39);
 		frame.getContentPane().add(btnScanProduct);
 		
 		JButton btnViewInventory = new JButton("View Inventory");
@@ -62,7 +62,7 @@ public class WindowMain {
 				frame.setVisible(false);
 			}
 		});
-		btnViewInventory.setBounds(151, 139, 116, 44);
+		btnViewInventory.setBounds(151, 139, 315, 44);
 		frame.getContentPane().add(btnViewInventory);
 		
 		JButton btnInventoryReports = new JButton("Inventory Reports");
@@ -73,7 +73,7 @@ public class WindowMain {
 				frame.setVisible(false);
 			}
 		});
-		btnInventoryReports.setBounds(151, 194, 145, 39);
+		btnInventoryReports.setBounds(151, 194, 315, 39);
 		frame.getContentPane().add(btnInventoryReports);
 	}
 }
