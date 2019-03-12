@@ -17,7 +17,8 @@ public class MainPHI {
 							"(UPC INT PRIMARY KEY    NOT NULL," +
 							"PRODUCT_NAME    TEXT    NOT NULL," +
 							"QUANTITY         INT    NOT NULL," +
-							"CATEGORY        TEXT    NOT NULL)";
+							"CATEGORY        TEXT    NOT NULL," +
+							"DATE            INT    NOT NULL)" ;
 			stmt.executeUpdate(sql);
 			stmt.close();
 			con.close();
