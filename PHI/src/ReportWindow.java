@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -31,9 +32,11 @@ public class ReportWindow {
 			String query1 = "SELECT * FROM INVENTORY";
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query1);
+			
 			Item item;
 			while(rs.next()) {
-				item = new Item(rs.getInt("UPC"), rs.getString("PRODUCT_NAME"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getInt("DATE"));
+				item = new Item(rs.getInt("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
+				
 				itemsList.add(item);
 			}
 		} catch(Exception e) {
@@ -43,12 +46,13 @@ public class ReportWindow {
 			
 	}
 	
-	public void showItem() {
+	public void showItem() throws Exception {
 		ArrayList<Item> list = itemList();
 		DefaultTableModel model = (DefaultTableModel)tableDisplayItem.getModel();
 		
 		model.addColumn("UPC");
 		model.addColumn("PRODUCT NAME");
+		model.addColumn("Price");
 		model.addColumn("QUANTITY");
 		model.addColumn("Category");
 		model.addColumn("DATE");
@@ -57,6 +61,7 @@ public class ReportWindow {
 			row = new Vector<Object>();
 			row.add(list.get(i).getUPC());
 			row.add(list.get(i).getProductName());
+			row.add(list.get(i).getPrice());
 			row.add(list.get(i).getQuantinty());
 			row.add(list.get(i).getCategory());
 			row.add(list.get(i).getdate());
@@ -64,6 +69,10 @@ public class ReportWindow {
 			//row[3] = list.get(i).getPrice();
 			model.addRow(row);
 		}
+		TableToExcel tte = new TableToExcel(tableDisplayItem, null, "My Table");
+		//optional -> tte.setCustomTitles(colTitles);
+		File myFile = new File("test.xls");
+		tte.generate(myFile);
 	}
 
 	/**
@@ -84,8 +93,9 @@ public class ReportWindow {
 
 	/**
 	 * Create the application.
+	 * @throws Exception 
 	 */
-	public ReportWindow() {
+	public ReportWindow() throws Exception {
 		initialize();
 		showItem();
 	}

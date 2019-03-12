@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import com.toedter.calendar.JDateChooser;
+import javax.swing.JComboBox;
 
 public class AddWindow {
 
@@ -18,13 +19,14 @@ public class AddWindow {
 	private JTextField upcText;
 	private JTextField productText;
 	private JTextField quantityText;
-	private JTextField categoryText;
 	private JLabel txtpnUpcNumber;
 	private JLabel txtpnProductName;
 	private JLabel txtpnQuantity;
 	private JLabel txtpnCategory;
 	private JButton btnCancel;
 	private JButton btnAdd;
+	private JTextField priceTextField;
+	private JComboBox comboBox;
 
 	/**
 	 * Launch the application.
@@ -75,19 +77,14 @@ public class AddWindow {
 		frame.getContentPane().add(quantityText);
 		quantityText.setColumns(10);
 		
-		categoryText = new JTextField();
-		categoryText.setBounds(406, 324, 144, 22);
-		frame.getContentPane().add(categoryText);
-		categoryText.setColumns(10);
-		
 		txtpnUpcNumber = new JLabel();
 		txtpnUpcNumber.setText("UPC NUMBER");
-		txtpnUpcNumber.setBounds(416, 28, 106, 31);
+		txtpnUpcNumber.setBounds(416, 28, 188, 31);
 		frame.getContentPane().add(txtpnUpcNumber);
 		
 		txtpnProductName = new JLabel();
 		txtpnProductName.setText("PRODUCT NAME");
-		txtpnProductName.setBounds(406, 104, 154, 38);
+		txtpnProductName.setBounds(406, 104, 218, 38);
 		frame.getContentPane().add(txtpnProductName);
 		
 		txtpnQuantity = new JLabel();
@@ -99,6 +96,11 @@ public class AddWindow {
 		txtpnCategory.setBounds(406, 277, 153, 31);
 		frame.getContentPane().add(txtpnCategory);
 		
+		String[] categories = {"Food","Toiletries", "Supplies"};
+		comboBox = new JComboBox(categories);
+		comboBox.setBounds(406, 314, 163, 39);
+		frame.getContentPane().add(comboBox);
+		
 		JLabel lblDate = new JLabel("DATE");
 		lblDate.setBounds(406, 356, 115, 33);
 		frame.getContentPane().add(lblDate);
@@ -106,6 +108,15 @@ public class AddWindow {
 		JDateChooser dateChooser = new JDateChooser();
 		dateChooser.setBounds(406, 399, 181, 39);
 		frame.getContentPane().add(dateChooser);
+		
+		JLabel lblPrice = new JLabel("Price");
+		lblPrice.setBounds(196, 107, 115, 33);
+		frame.getContentPane().add(lblPrice);
+		
+		priceTextField = new JTextField();
+		priceTextField.setBounds(141, 144, 236, 39);
+		frame.getContentPane().add(priceTextField);
+		priceTextField.setColumns(10);
 		
 		
 		btnCancel = new JButton("CANCEL");
@@ -130,9 +141,9 @@ public class AddWindow {
 					System.out.println("Opened Database Sucessfuly");
 					
 					stmt = con.createStatement();
-					String sql = "INSERT INTO INVENTORY (UPC, PRODUCT_NAME, QUANTITY, CATEGORY, DATE)" +
-									"VALUES ("+upcText.getText()+",'"+productText.getText()+"',"+
-									quantityText.getText()+",'"+categoryText.getText()+"',"+"date((julianday("+"'"+fmt.format(dateChooser.getDate())+"'"+")))"+");";
+					String sql = "INSERT INTO INVENTORY (UPC, PRODUCT_NAME,PRICE, QUANTITY, CATEGORY, DATE)" +
+									"VALUES ("+upcText.getText()+",'"+productText.getText()+"',"+"'"+priceTextField.getText()+"',"+
+									quantityText.getText()+",'"+comboBox.getSelectedItem().toString()+"',"+"date((julianday("+"'"+fmt.format(dateChooser.getDate())+"'"+")))"+");";
 					
 					System.out.println(sql);
 					stmt.executeUpdate(sql);
@@ -149,6 +160,9 @@ public class AddWindow {
 		});
 		btnAdd.setBounds(575, 469, 163, 20);
 		frame.getContentPane().add(btnAdd);
+		
+		
+		
 		
 		
 		

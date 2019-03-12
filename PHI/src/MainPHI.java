@@ -1,8 +1,32 @@
 import java.sql.*;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 public class MainPHI {
 
 	public static void main(String[] args) {
+		
+		try {
+            // Set System L&F
+        UIManager.setLookAndFeel(
+            UIManager.getSystemLookAndFeelClassName());
+    } 
+    catch (UnsupportedLookAndFeelException e) {
+       // handle exception
+    }
+    catch (ClassNotFoundException e) {
+       // handle exception
+    }
+    catch (InstantiationException e) {
+       // handle exception
+    }
+    catch (IllegalAccessException e) {
+       // handle exception
+    }
+
+     //Create and show the GUI.
+
 		// TODO Auto-generated method stub
 		WindowMain.MainWindow();
 		System.out.println("HeyFellas!");
@@ -16,6 +40,7 @@ public class MainPHI {
 			String sql = "CREATE TABLE INVENTORY" +
 							"(UPC INT PRIMARY KEY    NOT NULL," +
 							"PRODUCT_NAME    TEXT    NOT NULL," +
+							"PRICE      decimal(8,2) NOT NULL," +
 							"QUANTITY         INT    NOT NULL," +
 							"CATEGORY        TEXT    NOT NULL," +
 							"DATE            INT    NOT NULL)" ;

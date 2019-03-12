@@ -3,17 +3,17 @@ import java.sql.Date;
 public class Item {
 	private int quantinty, upc;
 	private String productName, categoryName;
-	private int date;
+	private String date;
 
-	//private Double price;
+	private Double price;
 	
-	public Item(int upc, String productName, int quantinty, String categoryName, int date) {
+	public Item(int upc, String productName,Double price, int quantinty, String categoryName, String date) {
 		this.upc = upc;
 		this.productName = productName;
 		this.quantinty = quantinty;
 		this.categoryName = categoryName;
 		this.date = date;
-		//this.price = price;
+		this.price = price;
 	}
 	public int getUPC() {
 		return upc;
@@ -29,14 +29,15 @@ public class Item {
 	public String getCategory() {
 		return categoryName;
 	}
-	public int getdate() {
+	public String getdate() {
+		System.out.print(date);
 		
 		
 		return date;
 	}
 	
-	/*public Double getPrice() {
+	public Double getPrice() {
 		return price;
-	}*/
+	}
 
 }

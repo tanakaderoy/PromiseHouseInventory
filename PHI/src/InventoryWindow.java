@@ -32,7 +32,7 @@ public class InventoryWindow {
 			ResultSet rs = st.executeQuery(query1);
 			Item item;
 			while(rs.next()) {
-				item = new Item(rs.getInt("UPC"), rs.getString("PRODUCT_NAME"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getInt("DATE"));
+				item = new Item(rs.getInt("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
 				itemsList.add(item);
 			}
 		} catch(Exception e) {
@@ -47,7 +47,8 @@ public class InventoryWindow {
 		DefaultTableModel model = (DefaultTableModel)inventoryTable.getModel();
 		
 		model.addColumn("UPC");
-		model.addColumn("PRODUCT_NAME");
+		model.addColumn("PRODUCT NAME");
+		model.addColumn("Price");
 		model.addColumn("QUANTITY");
 		model.addColumn("Category");
 		model.addColumn("DATE");
@@ -56,6 +57,7 @@ public class InventoryWindow {
 			row = new Vector<Object>();
 			row.add(list.get(i).getUPC());
 			row.add(list.get(i).getProductName());
+			row.add(list.get(i).getPrice());
 			row.add(list.get(i).getQuantinty());
 			row.add(list.get(i).getCategory());
 			row.add(list.get(i).getdate());
