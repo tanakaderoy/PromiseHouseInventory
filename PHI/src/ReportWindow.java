@@ -9,13 +9,24 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.RowFilter.ComparisonType;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.JScrollPane;
+import java.awt.Font;
+import javax.swing.JLabel;
+import com.toedter.calendar.JDateChooser;
 
 public class ReportWindow {
 
@@ -49,6 +60,11 @@ public class ReportWindow {
 	public void showItem() throws Exception {
 		ArrayList<Item> list = itemList();
 		DefaultTableModel model = (DefaultTableModel)tableDisplayItem.getModel();
+		model.setRowCount(0);
+		tableDisplayItem.setRowHeight(30);
+		tableDisplayItem.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		TableColumnAdjuster tca = new TableColumnAdjuster(tableDisplayItem);
+		tca.adjustColumns();
 		
 		model.addColumn("UPC");
 		model.addColumn("PRODUCT NAME");
@@ -56,6 +72,13 @@ public class ReportWindow {
 		model.addColumn("QUANTITY");
 		model.addColumn("Category");
 		model.addColumn("DATE");
+		model.addColumn("Total Price");
+		List<Double> totalPrice = new ArrayList<Double>();
+		for(int i=0; i<list.size();i++) {
+			totalPrice.add(list.get(i).getPrice());
+			
+		}
+		double sum = totalPrice.stream().reduce(0.0, Double::sum);
 		Vector<Object> row;
 		for(int i=0; i<list.size();i++) {
 			row = new Vector<Object>();
@@ -66,13 +89,13 @@ public class ReportWindow {
 			row.add(list.get(i).getCategory());
 			row.add(list.get(i).getdate());
 			
+			
+			row.add(sum);
+			
 			//row[3] = list.get(i).getPrice();
 			model.addRow(row);
 		}
-		TableToExcel tte = new TableToExcel(tableDisplayItem, null, "My Table");
-		//optional -> tte.setCustomTitles(colTitles);
-		File myFile = new File("test.xls");
-		tte.generate(myFile);
+		
 	}
 
 	/**
@@ -105,7 +128,7 @@ public class ReportWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1018, 586);
+		frame.setBounds(100, 100, 1832, 815);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -120,20 +143,156 @@ public class ReportWindow {
 		frame.getContentPane().add(btnMainMenu);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(36, 98, 885, 359);
+		scrollPane.setBounds(37, 157, 1735, 570);
 		frame.getContentPane().add(scrollPane);
 		
 		tableDisplayItem = new JTable();
+		tableDisplayItem.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		scrollPane.setViewportView(tableDisplayItem);
+		
 		
 		txtSearch = new JTextField();
 		txtSearch.setText("Search Area");
-		txtSearch.setBounds(348, 36, 236, 39);
+		txtSearch.setBounds(248, 36, 236, 39);
 		frame.getContentPane().add(txtSearch);
 		txtSearch.setColumns(10);
 		
 		JButton btnSearch = new JButton("Search");
-		btnSearch.setBounds(594, 35, 113, 41);
+		btnSearch.setBounds(510, 35, 113, 41);
 		frame.getContentPane().add(btnSearch);
+		
+		JButton btnGenerateReport = new JButton("Generate Report");
+		btnGenerateReport.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnGenerateReport.setBounds(730, 35, 191, 41);
+		btnGenerateReport.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				TableToExcel tte = new TableToExcel(tableDisplayItem, null, "My Table");
+				//optional -> tte.setCustomTitles(colTitles);
+				File myFile = new File("test.xls");
+				try {
+					tte.generate(myFile);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		frame.getContentPane().add(btnGenerateReport);
+		
+		JLabel lblStartDate = new JLabel("Start Date");
+		lblStartDate.setBounds(77, 96, 120, 33);
+		frame.getContentPane().add(lblStartDate);
+		
+		DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+		JDateChooser startDateChooser = new JDateChooser();
+		startDateChooser.setBounds(204, 100, 181, 29);
+		frame.getContentPane().add(startDateChooser);
+		
+		
+		JLabel lblEndDate = new JLabel("End Date");
+		lblEndDate.setBounds(411, 96, 115, 33);
+		frame.getContentPane().add(lblEndDate);
+		
+		JButton btnFilter = new JButton("Filter");
+		btnFilter.setBounds(740, 88, 99, 41);
+		frame.getContentPane().add(btnFilter);
+		
+		JDateChooser endDateChooser = new JDateChooser();
+		endDateChooser.setBounds(533, 96, 181, 29);
+		frame.getContentPane().add(endDateChooser);
+		
+		btnFilter.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String sDate;
+				String eDate;
+				if(startDateChooser.getDate() == null && endDateChooser.getDate() == null) {
+					sDate = "";
+					eDate = "";
+				}else {
+					sDate = ""+fmt.format(startDateChooser.getDate())+"";
+					eDate = ""+fmt.format(endDateChooser.getDate())+"";
+					
+				}
+				
+				filter(sDate,eDate);
+				
+			}
+		});
+		
+		
+		
 	}
+	
+	public ArrayList<Item> filterItemList(String startDate, String endDate) {
+		ArrayList<Item> itemsList2 = new ArrayList<>();
+		try {
+			Class.forName("org.sqlite.JDBC");
+			Connection con = DriverManager.getConnection("jdbc:sqlite:test.db");
+			String query1;
+			if(startDate.isEmpty() && endDate.isEmpty() ) {
+				query1 = "SELECT * FROM 'INVENTORY' ";
+						
+			}else {
+				
+				query1 = "SELECT * FROM 'INVENTORY' " + 
+						"where `DATE` between  '"+startDate+"' and '"+endDate+"';";
+			}
+			System.out.println(query1);
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(query1);
+			
+			Item item;
+			while(rs.next()) {
+				item = new Item(rs.getInt("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
+				
+				itemsList2.add(item);
+			}
+		} catch(Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+		return itemsList2;
+			
+	}
+	
+	public void filter(String startDateText, String endDateText) {
+		
+		
+		
+		ArrayList<Item> list2 = filterItemList(startDateText, endDateText);
+		DefaultTableModel model1 = (DefaultTableModel)tableDisplayItem.getModel();
+		
+		model1.setRowCount(0);
+		tableDisplayItem.setRowHeight(30);
+		tableDisplayItem.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		TableColumnAdjuster tca = new TableColumnAdjuster(tableDisplayItem);
+		tca.adjustColumns();
+		
+		List<Double> totalPrice = new ArrayList<Double>();
+		for(int i=0; i<list2.size();i++) {
+			totalPrice.add(list2.get(i).getPrice());
+			
+		}
+		double sum = totalPrice.stream().reduce(0.0, Double::sum);
+		
+		Vector<Object> row;
+		for(int i=0; i<list2.size();i++) {
+			row = new Vector<Object>();
+			row.add(list2.get(i).getUPC());
+			row.add(list2.get(i).getProductName());
+			row.add(list2.get(i).getPrice());
+			row.add(list2.get(i).getQuantinty());
+			row.add(list2.get(i).getCategory());
+			row.add(list2.get(i).getdate());
+			row.add(sum);
+			
+			//row[3] = list.get(i).getPrice();
+			model1.addRow(row);
+		}
+	    }
 }

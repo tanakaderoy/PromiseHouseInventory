@@ -45,6 +45,13 @@ public class InventoryWindow {
 	public void showItem() {
 		ArrayList<Item> list = itemList();
 		DefaultTableModel model = (DefaultTableModel)inventoryTable.getModel();
+
+		
+		model.setRowCount(0);
+		inventoryTable.setRowHeight(30);
+		inventoryTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		TableColumnAdjuster tca = new TableColumnAdjuster(inventoryTable);
+		tca.adjustColumns();
 		
 		model.addColumn("UPC");
 		model.addColumn("PRODUCT NAME");
@@ -98,7 +105,7 @@ public class InventoryWindow {
 	private void initialize() {
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 992, 575);
+		frame.setBounds(100, 100, 1832, 575);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -115,7 +122,7 @@ public class InventoryWindow {
 		frame.getContentPane().add(btnMainMenu);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(57, 125, 877, 334);
+		scrollPane.setBounds(57, 125, 1735, 334);
 		frame.getContentPane().add(scrollPane);
 		
 		inventoryTable = new JTable();
