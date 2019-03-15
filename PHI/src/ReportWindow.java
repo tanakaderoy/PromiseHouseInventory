@@ -1,10 +1,14 @@
+import java.awt.Desktop;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,6 +17,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -21,6 +26,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.RowFilter.ComparisonType;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.JScrollPane;
@@ -152,14 +159,47 @@ public class ReportWindow {
 		
 		
 		txtSearch = new JTextField();
-		txtSearch.setText("Search Area");
+		TextPrompt txtSearchPrompt = new TextPrompt("Search by UPC or Product Name", txtSearch);
 		txtSearch.setBounds(248, 36, 236, 39);
 		frame.getContentPane().add(txtSearch);
 		txtSearch.setColumns(10);
+		txtSearch.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				newFilter();
+				
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				newFilter();
+				
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				newFilter();
+				
+			}
+		});
+
 		
 		JButton btnSearch = new JButton("Search");
 		btnSearch.setBounds(510, 35, 113, 41);
 		frame.getContentPane().add(btnSearch);
+		btnSearch.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				newFilter();
+				
+			}
+		});
 		
 		JButton btnGenerateReport = new JButton("Generate Report");
 		btnGenerateReport.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -175,6 +215,12 @@ public class ReportWindow {
 				try {
 					tte.generate(myFile);
 				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					Desktop.getDesktop().open(myFile);
+				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -227,6 +273,24 @@ public class ReportWindow {
 		
 		
 		
+	}
+	
+	public void newFilter() {
+		DefaultTableModel model = (DefaultTableModel)tableDisplayItem.getModel();
+		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
+		
+		tableDisplayItem.setRowSorter(sorter);
+	    RowFilter<DefaultTableModel, Object> rf = null;
+	    //If current expression doesn't parse, don't update.
+	    try {
+	        rf = RowFilter.orFilter(Arrays.asList(RowFilter.regexFilter(txtSearch.getText(),0),
+	        	    RowFilter.regexFilter(txtSearch.getText(), 1)));
+	        System.out.println(rf);
+	        System.out.println(txtSearch.getText());
+	    } catch (java.util.regex.PatternSyntaxException e) {
+	        return;
+	    }
+	    sorter.setRowFilter(rf);
 	}
 	
 	public ArrayList<Item> filterItemList(String startDate, String endDate) {
