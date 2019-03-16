@@ -30,6 +30,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import javax.xml.stream.events.StartDocument;
 import javax.swing.JScrollPane;
 import java.awt.Font;
 import javax.swing.JLabel;
@@ -204,29 +205,7 @@ public class ReportWindow {
 		JButton btnGenerateReport = new JButton("Generate Report");
 		btnGenerateReport.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnGenerateReport.setBounds(730, 35, 191, 41);
-		btnGenerateReport.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				TableToExcel tte = new TableToExcel(tableDisplayItem, null, "My Table");
-				//optional -> tte.setCustomTitles(colTitles);
-				File myFile = new File("test.xls");
-				try {
-					tte.generate(myFile);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
-					Desktop.getDesktop().open(myFile);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-			}
-		});
+		
 		frame.getContentPane().add(btnGenerateReport);
 		
 		JLabel lblStartDate = new JLabel("Start Date");
@@ -267,6 +246,39 @@ public class ReportWindow {
 				}
 				
 				filter(sDate,eDate);
+				
+			}
+		});
+btnGenerateReport.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String sDate;
+				String eDate;
+				if(startDateChooser.getDate() == null && endDateChooser.getDate() == null) {
+					sDate = JOptionPane.showInputDialog("enter start date for report");
+					eDate = JOptionPane.showInputDialog("enter end date for report");
+				}else {
+					sDate = ""+fmt.format(startDateChooser.getDate())+"";
+					eDate = ""+fmt.format(endDateChooser.getDate())+"";
+					
+				}
+				// TODO Auto-generated method stub
+				TableToExcel tte = new TableToExcel(tableDisplayItem, null, "My Table");
+				//optional -> tte.setCustomTitles(colTitles);
+				File myFile = new File(""+sDate+"-"+eDate+".xls");
+				try {
+					tte.generate(myFile);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					Desktop.getDesktop().open(myFile);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			}
 		});
