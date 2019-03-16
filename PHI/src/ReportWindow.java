@@ -14,6 +14,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public class ReportWindow {
 			totalPrice.add(list.get(i).getPrice());
 			
 		}
-		double sum = totalPrice.stream().reduce(0.0, Double::sum);
+		double sum = RoundTo2Decimals(totalPrice.stream().reduce(0.0, Double::sum));
 		Vector<Object> row;
 		for(int i=0; i<list.size();i++) {
 			row = new Vector<Object>();
@@ -335,6 +336,10 @@ btnGenerateReport.addActionListener(new ActionListener() {
 		return itemsList2;
 			
 	}
+	double RoundTo2Decimals(double val) {
+        DecimalFormat df2 = new DecimalFormat("###.##");
+    return Double.valueOf(df2.format(val));
+}
 	
 	public void filter(String startDateText, String endDateText) {
 		
@@ -354,7 +359,8 @@ btnGenerateReport.addActionListener(new ActionListener() {
 			totalPrice.add(list2.get(i).getPrice());
 			
 		}
-		double sum = totalPrice.stream().reduce(0.0, Double::sum);
+		double sum = RoundTo2Decimals(totalPrice.stream().reduce(0.0, Double::sum));
+		
 		
 		Vector<Object> row;
 		for(int i=0; i<list2.size();i++) {
