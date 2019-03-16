@@ -57,7 +57,7 @@ public class WindowMain {
 		JButton btnViewInventory = new JButton("View Inventory");
 		btnViewInventory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "View Inventory");
+				 
 				InventoryWindow.inventoryWindow();
 				frame.setVisible(false);
 			}
@@ -68,7 +68,7 @@ public class WindowMain {
 		JButton btnInventoryReports = new JButton("Inventory Reports");
 		btnInventoryReports.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Inventory Reports");
+				
 				ReportWindow.reportWindow();
 				frame.setVisible(false);
 			}

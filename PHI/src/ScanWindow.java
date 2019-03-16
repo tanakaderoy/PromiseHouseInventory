@@ -68,7 +68,8 @@ public class ScanWindow {
 		frame.getContentPane().add(btnScanOut);
 		
 		txtSerialCode = new JTextField();
-		txtSerialCode.setText("Serial Number.....");
+		TextPrompt txtSearchPrompt = new TextPrompt("Scan UPC", txtSerialCode);
+		
 		txtSerialCode.setToolTipText("Serial Number.....");
 		txtSerialCode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

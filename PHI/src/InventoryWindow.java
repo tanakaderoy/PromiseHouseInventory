@@ -9,17 +9,24 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class InventoryWindow {
 
 	private JFrame frame;
 	private JTable inventoryTable;
+	private JTextField searchTextField;
 	
 	
 	public ArrayList<Item> itemList() {
@@ -118,7 +125,7 @@ public class InventoryWindow {
 				frame.setVisible(false);
 			}
 		});
-		btnMainMenu.setBounds(57, 44, 170, 23);
+		btnMainMenu.setBounds(57, 44, 170, 26);
 		frame.getContentPane().add(btnMainMenu);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -128,6 +135,70 @@ public class InventoryWindow {
 		inventoryTable = new JTable();
 		scrollPane.setViewportView(inventoryTable);
 		
+		JButton btnAdd = new JButton("Add");
+		btnAdd.setBounds(1683, 40, 91, 30);
+		frame.getContentPane().add(btnAdd);
+		
+		searchTextField = new JTextField();
+		searchTextField.setBounds(790, 36, 418, 31);
+		TextPrompt txtSearchPrompt = new TextPrompt("Search by UPC or Product Name", searchTextField);
+		frame.getContentPane().add(searchTextField);
+		searchTextField.setColumns(10);
+searchTextField.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				newFilter();
+				
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				newFilter();
+				
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				newFilter();
+				
+			}
+		});
+		JButton btnSearch = new JButton("Search");
+		btnSearch.setBounds(1217, 35, 113, 32);
+		frame.getContentPane().add(btnSearch);
+btnSearch.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				newFilter();
+				
+			}
+		});
+		
 		
 	}
+	public void newFilter() {
+		DefaultTableModel model = (DefaultTableModel)inventoryTable.getModel();
+		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
+		
+		inventoryTable.setRowSorter(sorter);
+	    RowFilter<DefaultTableModel, Object> rf = null;
+	    //If current expression doesn't parse, don't update.
+	    try {
+	        rf = RowFilter.orFilter(Arrays.asList(RowFilter.regexFilter(searchTextField.getText(),0),
+	        	    RowFilter.regexFilter(searchTextField.getText(), 1)));
+	        System.out.println(rf);
+	        System.out.println(searchTextField.getText());
+	    } catch (java.util.regex.PatternSyntaxException e) {
+	        return;
+	    }
+	    sorter.setRowFilter(rf);
+	}
+	
+	
 }
