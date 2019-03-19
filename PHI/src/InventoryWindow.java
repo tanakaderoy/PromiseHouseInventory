@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
@@ -27,6 +28,7 @@ public class InventoryWindow {
 	private JFrame frame;
 	private JTable inventoryTable;
 	private JTextField searchTextField;
+	private NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
 	
 	
 	public ArrayList<Item> itemList() {
@@ -71,7 +73,7 @@ public class InventoryWindow {
 			row = new Vector<Object>();
 			row.add(list.get(i).getUPC());
 			row.add(list.get(i).getProductName());
-			row.add(list.get(i).getPrice());
+			row.add(currencyFormatter.format(list.get(i).getPrice()));
 			row.add(list.get(i).getQuantinty());
 			row.add(list.get(i).getCategory());
 			row.add(list.get(i).getdate());
@@ -190,8 +192,8 @@ btnSearch.addActionListener(new ActionListener() {
 	    RowFilter<DefaultTableModel, Object> rf = null;
 	    //If current expression doesn't parse, don't update.
 	    try {
-	        rf = RowFilter.orFilter(Arrays.asList(RowFilter.regexFilter(searchTextField.getText(),0),
-	        	    RowFilter.regexFilter(searchTextField.getText(), 1)));
+	        rf = RowFilter.orFilter(Arrays.asList(RowFilter.regexFilter("(?i)" + searchTextField.getText(),0),
+	        	    RowFilter.regexFilter("(?i)" + searchTextField.getText(), 1)));
 	        System.out.println(rf);
 	        System.out.println(searchTextField.getText());
 	    } catch (java.util.regex.PatternSyntaxException e) {

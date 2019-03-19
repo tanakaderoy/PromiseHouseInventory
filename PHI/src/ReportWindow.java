@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.EventQueue;
 
@@ -15,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ public class ReportWindow {
 	private JTable tableDisplayItem;
 	private JTextField txtSearch;
 	private JScrollPane scrollPane;
+	NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
 	
 	public ArrayList<Item> itemList() {
 		ArrayList<Item> itemsList = new ArrayList<>();
@@ -89,17 +92,18 @@ public class ReportWindow {
 		}
 		double sum = RoundTo2Decimals(totalPrice.stream().reduce(0.0, Double::sum));
 		Vector<Object> row;
+		
 		for(int i=0; i<list.size();i++) {
 			row = new Vector<Object>();
 			row.add(list.get(i).getUPC());
 			row.add(list.get(i).getProductName());
-			row.add(list.get(i).getPrice());
+			row.add(currencyFormatter.format(list.get(i).getPrice()));
 			row.add(list.get(i).getQuantinty());
 			row.add(list.get(i).getCategory());
 			row.add(list.get(i).getdate());
 			
 			
-			row.add(sum);
+			row.add(currencyFormatter.format(sum));
 			
 			//row[3] = list.get(i).getPrice();
 			model.addRow(row);
@@ -152,8 +156,8 @@ public class ReportWindow {
 		frame.getContentPane().add(btnMainMenu);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(37, 157, 1735, 570);
-		frame.getContentPane().add(scrollPane);
+		scrollPane.setBounds(0, 157, 1800, 570);
+		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
 		tableDisplayItem = new JTable();
 		tableDisplayItem.setFont(new Font("Tahoma", Font.PLAIN, 22));
@@ -162,7 +166,7 @@ public class ReportWindow {
 		
 		txtSearch = new JTextField();
 		TextPrompt txtSearchPrompt = new TextPrompt("Search by UPC or Product Name", txtSearch);
-		txtSearch.setBounds(248, 36, 236, 39);
+		txtSearch.setBounds(248, 36, 407, 39);
 		frame.getContentPane().add(txtSearch);
 		txtSearch.setColumns(10);
 		txtSearch.getDocument().addDocumentListener(new DocumentListener() {
@@ -191,7 +195,7 @@ public class ReportWindow {
 
 		
 		JButton btnSearch = new JButton("Search");
-		btnSearch.setBounds(510, 35, 113, 41);
+		btnSearch.setBounds(669, 35, 113, 35);
 		frame.getContentPane().add(btnSearch);
 		btnSearch.addActionListener(new ActionListener() {
 			
@@ -205,7 +209,7 @@ public class ReportWindow {
 		
 		JButton btnGenerateReport = new JButton("Generate Report");
 		btnGenerateReport.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnGenerateReport.setBounds(730, 35, 191, 41);
+		btnGenerateReport.setBounds(881, 36, 191, 37);
 		
 		frame.getContentPane().add(btnGenerateReport);
 		
@@ -250,7 +254,7 @@ public class ReportWindow {
 				
 			}
 		});
-btnGenerateReport.addActionListener(new ActionListener() {
+		btnGenerateReport.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -367,11 +371,11 @@ btnGenerateReport.addActionListener(new ActionListener() {
 			row = new Vector<Object>();
 			row.add(list2.get(i).getUPC());
 			row.add(list2.get(i).getProductName());
-			row.add(list2.get(i).getPrice());
+			row.add(currencyFormatter.format(list2.get(i).getPrice()));
 			row.add(list2.get(i).getQuantinty());
 			row.add(list2.get(i).getCategory());
 			row.add(list2.get(i).getdate());
-			row.add(sum);
+			row.add(currencyFormatter.format(sum));
 			
 			//row[3] = list.get(i).getPrice();
 			model1.addRow(row);
