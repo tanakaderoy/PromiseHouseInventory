@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.NumberFormat;
@@ -22,6 +23,8 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class InventoryWindow {
 
@@ -172,6 +175,23 @@ searchTextField.getDocument().addDocumentListener(new DocumentListener() {
 		JButton btnSearch = new JButton("Search");
 		btnSearch.setBounds(1217, 35, 113, 32);
 		frame.getContentPane().add(btnSearch);
+		
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.setBounds(1486, 37, 113, 33);
+		btnDelete.setEnabled(false);
+		frame.getContentPane().add(btnDelete);
+		btnDelete.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				deleteSelectedRow();
+				
+			}
+		});
+		
+		
+		
 btnSearch.addActionListener(new ActionListener() {
 			
 			@Override
@@ -179,9 +199,47 @@ btnSearch.addActionListener(new ActionListener() {
 				// TODO Auto-generated method stub
 				newFilter();
 				
+				
 			}
 		});
+inventoryTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	
+	@Override
+	public void valueChanged(ListSelectionEvent arg0) {
+		// TODO Auto-generated method stub
+		int row = inventoryTable.getSelectedRow();
+		if(row>=0) {
+            btnDelete.setEnabled(true);
+        }else {
+        	btnDelete.setEnabled(false);
+        }
 		
+	}
+	});
+		
+		
+	}
+	
+	public void deleteSelectedRow() {
+		int row = inventoryTable.getSelectedRow();
+		DefaultTableModel model= (DefaultTableModel)inventoryTable.getModel();
+
+		String selected = model.getValueAt(row, 0).toString();
+		System.out.println(selected);
+
+		            if (row >= 0) {
+
+		                model.removeRow(row);
+
+		                try {
+		                    Connection conn = (Connection) DriverManager.getConnection("jdbc:sqlite:test.db");
+		                    PreparedStatement ps = conn.prepareStatement("delete from INVENTORY where UPC='"+selected+"' ");
+		                    ps.executeUpdate();
+		                }
+		                catch (Exception w) {
+		                    JOptionPane.showMessageDialog(inventoryTable, "Connection Error!");
+		                }          
+		            }
 		
 	}
 	public void newFilter() {
@@ -201,6 +259,4 @@ btnSearch.addActionListener(new ActionListener() {
 	    }
 	    sorter.setRowFilter(rf);
 	}
-	
-	
 }
