@@ -56,7 +56,7 @@ public class AddWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 961, 621);
+		frame.setBounds(100, 100, 961, 622);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
