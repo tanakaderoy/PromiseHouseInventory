@@ -1,18 +1,19 @@
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JButton;
 import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextPane;
 
+@SuppressWarnings("unused")
 public class ScanWindow {
 
 	private JFrame frame;
-	private JTextField txtSerialCode;
+	private static JTextField txtSerialCode;
 	private JButton btnMainMenu;
+	private TextPrompt txtSearchPrompt;
 
 	/**
 	 * Launch the application.
@@ -33,6 +34,15 @@ public class ScanWindow {
 	/**
 	 * Create the application.
 	 */
+	public static String getSerial() {
+		String serialNum = txtSerialCode.getText();
+		
+		
+	
+	
+		return serialNum;
+		
+	}
 	public ScanWindow() {
 		initialize();
 	}
@@ -49,7 +59,7 @@ public class ScanWindow {
 		JButton btnScanIn = new JButton("Scan In");
 		btnScanIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String serialNum = txtSerialCode.getText();
+				
 				AddWindow.addWindow();
 				frame.setVisible(false);
 			}
@@ -68,7 +78,8 @@ public class ScanWindow {
 		frame.getContentPane().add(btnScanOut);
 		
 		txtSerialCode = new JTextField();
-		TextPrompt txtSearchPrompt = new TextPrompt("Scan UPC", txtSerialCode);
+		
+		txtSearchPrompt = new TextPrompt("Scan UPC", txtSerialCode);
 		
 		txtSerialCode.setToolTipText("Serial Number.....");
 		txtSerialCode.addActionListener(new ActionListener() {

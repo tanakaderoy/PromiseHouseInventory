@@ -39,6 +39,7 @@ import java.awt.Font;
 import javax.swing.JLabel;
 import com.toedter.calendar.JDateChooser;
 
+@SuppressWarnings("unused")
 public class ReportWindow {
 
 	private JFrame frame;
@@ -62,6 +63,9 @@ public class ReportWindow {
 				
 				itemsList.add(item);
 			}
+			st.executeUpdate(query1);
+			st.close();
+			con.close();
 		} catch(Exception e) {
 			JOptionPane.showMessageDialog(null, e);
 		}
@@ -300,8 +304,8 @@ public class ReportWindow {
 	    RowFilter<DefaultTableModel, Object> rf = null;
 	    //If current expression doesn't parse, don't update.
 	    try {
-	        rf = RowFilter.orFilter(Arrays.asList(RowFilter.regexFilter(txtSearch.getText(),0),
-	        	    RowFilter.regexFilter(txtSearch.getText(), 1)));
+	        rf = RowFilter.orFilter(Arrays.asList(RowFilter.regexFilter("^" +txtSearch.getText()+"$",0),
+	        	    RowFilter.regexFilter("(?i)" +txtSearch.getText(), 1)));
 	        System.out.println(rf);
 	        System.out.println(txtSearch.getText());
 	    } catch (java.util.regex.PatternSyntaxException e) {
@@ -321,8 +325,9 @@ public class ReportWindow {
 						
 			}else {
 				
-				query1 = "SELECT * FROM 'INVENTORY' " + 
-						"where `DATE` between  '"+startDate+"' and '"+endDate+"';";
+				query1 = "SELECT * FROM 'INVENTORY' " +
+						"where `DATE` between  '"+startDate+"' and '"+endDate+"'"+
+						"ORDER BY `DATE`;";
 			}
 			System.out.println(query1);
 			Statement st = con.createStatement();
@@ -334,6 +339,9 @@ public class ReportWindow {
 				
 				itemsList2.add(item);
 			}
+			st.executeUpdate(query1);
+			st.close();
+			con.close();
 		} catch(Exception e) {
 			JOptionPane.showMessageDialog(null, e);
 		}

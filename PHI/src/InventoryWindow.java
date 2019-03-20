@@ -1,8 +1,5 @@
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JButton;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,18 +10,20 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
-import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class InventoryWindow {
 
@@ -39,7 +38,8 @@ public class InventoryWindow {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			Connection con = DriverManager.getConnection("jdbc:sqlite:test.db");
-			String query1 = "SELECT * FROM INVENTORY";
+			String query1 = "SELECT * FROM INVENTORY "+
+			"ORDER BY `DATE`;";
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 			Item item;
@@ -47,6 +47,10 @@ public class InventoryWindow {
 				item = new Item(rs.getInt("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
 				itemsList.add(item);
 			}
+			st.executeUpdate(query1);
+			st.close();
+			
+			con.close();
 		} catch(Exception e) {
 			JOptionPane.showMessageDialog(null, e);
 		}
@@ -235,6 +239,8 @@ inventoryTable.getSelectionModel().addListSelectionListener(new ListSelectionLis
 		                    Connection conn = (Connection) DriverManager.getConnection("jdbc:sqlite:test.db");
 		                    PreparedStatement ps = conn.prepareStatement("delete from INVENTORY where UPC='"+selected+"' ");
 		                    ps.executeUpdate();
+		                    ps.close();
+		                    conn.close();
 		                }
 		                catch (Exception w) {
 		                    JOptionPane.showMessageDialog(inventoryTable, "Connection Error!");
@@ -250,7 +256,7 @@ inventoryTable.getSelectionModel().addListSelectionListener(new ListSelectionLis
 	    RowFilter<DefaultTableModel, Object> rf = null;
 	    //If current expression doesn't parse, don't update.
 	    try {
-	        rf = RowFilter.orFilter(Arrays.asList(RowFilter.regexFilter("(?i)" + searchTextField.getText(),0),
+	        rf = RowFilter.orFilter(Arrays.asList(RowFilter.regexFilter("^" +searchTextField.getText()+"$",0),
 	        	    RowFilter.regexFilter("(?i)" + searchTextField.getText(), 1)));
 	        System.out.println(rf);
 	        System.out.println(searchTextField.getText());
