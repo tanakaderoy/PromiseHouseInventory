@@ -96,6 +96,11 @@ public class ReportWindow {
 		}
 		double sum = RoundTo2Decimals(totalPrice.stream().reduce(0.0, Double::sum));
 		Vector<Object> row;
+		/*
+		 * TODO Change this to something more readable
+		 */
+		DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat fmt1 = new SimpleDateFormat("MM-dd-yyyy");
 		
 		for(int i=0; i<list.size();i++) {
 			row = new Vector<Object>();
@@ -104,7 +109,8 @@ public class ReportWindow {
 			row.add(currencyFormatter.format(list.get(i).getPrice()));
 			row.add(list.get(i).getQuantinty());
 			row.add(list.get(i).getCategory());
-			row.add(list.get(i).getdate());
+			String date = ""+fmt1.format(fmt.parse(list.get(i).getdate()))+"";
+			row.add(date);
 			
 			
 			row.add(currencyFormatter.format(sum));
