@@ -1,3 +1,4 @@
+package org.team3.PHI;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -23,8 +24,11 @@ public class AddWindowTest {
 	 */
 	@Test
 	public void testAddToCategoriesList() {
+		
 		ArrayList<String> categories = new ArrayList<String>();
+		
 		categories.add("Food");
+		
 		assertEquals("Should equal Food","Food", categories.get(categories.indexOf("Food")));
 		assertNotNull("Size of list shouldnt be null", categories.size());
 		
@@ -36,6 +40,8 @@ public class AddWindowTest {
 	 */
 	@Test
 	public void testToggleUpdateOrInsert() {
+		
+		
 		Boolean updateOrInsert = false;
 		if(updateOrInsert) {
 			updateOrInsert = false;

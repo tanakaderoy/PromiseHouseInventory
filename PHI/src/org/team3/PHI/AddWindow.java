@@ -1,3 +1,4 @@
+package org.team3.PHI;
 import java.awt.EventQueue;
 import java.sql.*;
 import java.text.DateFormat;
@@ -13,11 +14,14 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -121,10 +125,30 @@ public class AddWindow {
 		txtpnQuantity.setText("QUANTITY");
 		txtpnQuantity.setBounds(406, 188, 154, 39);
 		frame.getContentPane().add(txtpnQuantity);
-		
-		addToCategoriesList("Food");
-		addToCategoriesList("Toiletries");
-		addToCategoriesList("Supplies");
+		File newFile = new File("Categories.txt");
+		//newFile.createNewFile();
+		if(newFile.length() == 0) {
+		try {
+			addToCategoriesList("Food");
+		} catch (IOException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
+		try {
+			addToCategoriesList("Toiletries");
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		try {
+			addToCategoriesList("Supplies");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		}else {
+			addFileLineToCat();
+		}
 		
 		txtpnCategory = new JLabel("CATEGORY");
 		txtpnCategory.setBounds(406, 277, 153, 31);
@@ -138,6 +162,7 @@ public class AddWindow {
 		
 		comboBox = new JComboBox<String>(array);
 		comboBox.setBounds(406, 314, 163, 39);
+		
 		frame.getContentPane().add(comboBox);
 		
 		JLabel lblDate = new JLabel("DATE");
@@ -220,9 +245,15 @@ public class AddWindow {
 		btnAddCategory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				
+				if(!addCategoryTextField.getText().isEmpty()) {
 				comboBox.addItem(addCategoryTextField.getText());
-				addToCategoriesList(addCategoryTextField.getText());
+				}
+				try {
+					addToCategoriesList(addCategoryTextField.getText());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				addCategoryTextField.setText(null);
 			}
 		});
@@ -237,9 +268,44 @@ public class AddWindow {
 		
 		
 	}
-	public void addToCategoriesList(String cat){
+	public void addToCategoriesList(String cat) throws IOException{
+		Writer writer = null;
+		if(!cat.equals("")) {
+		try {
+			writer = new BufferedWriter(new FileWriter("categories.txt", true));
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		writer.append("\n"+cat);
+		
+		writer.close();
 
-		categories.add(cat);
+		addFileLineToCat();
+		}
+	}
+	public void addFileLineToCat() {
+		BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader("categories.txt"));
+			String line = reader.readLine();
+			while (line != null) {
+				
+				// read next line
+				if(!line.equals("")) {
+					System.out.println(line);
+					categories.add(line);
+				}
+				line=reader.readLine();
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	public void toggleUpdateOrInsert() {
 		if(updateOrInsert == true) {
