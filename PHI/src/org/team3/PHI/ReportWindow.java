@@ -48,6 +48,7 @@ public class ReportWindow {
 	private JTextField txtSearch;
 	private JScrollPane scrollPane;
 	NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+	TextPrompt txtSearchPrompt;
 	
 	public ArrayList<Item> itemList() {
 		ArrayList<Item> itemsList = new ArrayList<>();
@@ -177,7 +178,7 @@ public class ReportWindow {
 		
 		
 		txtSearch = new JTextField();
-		TextPrompt txtSearchPrompt = new TextPrompt("Search by UPC or Product Name", txtSearch);
+		txtSearchPrompt = new TextPrompt("Search by UPC or Product Name", txtSearch);
 		txtSearch.setBounds(248, 36, 407, 39);
 		frame.getContentPane().add(txtSearch);
 		txtSearch.setColumns(10);
