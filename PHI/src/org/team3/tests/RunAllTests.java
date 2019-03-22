@@ -11,6 +11,7 @@ import org.junit.runners.Suite;
 	MainPHITest.class,
 	ItemTest.class,
 	ReportWindowTest.class
+	//comment
 })
 
 public class RunAllTests {
