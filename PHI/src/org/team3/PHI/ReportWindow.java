@@ -186,21 +186,21 @@ public class ReportWindow {
 			@Override
 			public void removeUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
-				newFilter();
+				textFilter();
 				
 			}
 			
 			@Override
 			public void insertUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
-				newFilter();
+				textFilter();
 				
 			}
 			
 			@Override
 			public void changedUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
-				newFilter();
+				textFilter();
 				
 			}
 		});
@@ -214,7 +214,7 @@ public class ReportWindow {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				newFilter();
+				textFilter();
 				
 			}
 		});
@@ -263,7 +263,7 @@ public class ReportWindow {
 				}
 				
 				try {
-					filter(sDate,eDate);
+					dateRangeFilter(sDate,eDate);
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -309,7 +309,7 @@ public class ReportWindow {
 		
 	}
 	
-	public void newFilter() {
+	public void textFilter() {
 		DefaultTableModel model = (DefaultTableModel)tableDisplayItem.getModel();
 		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
 		
@@ -366,7 +366,7 @@ public class ReportWindow {
     return Double.valueOf(df2.format(val));
 }
 	
-	public void filter(String startDateText, String endDateText) throws ParseException {
+	public void dateRangeFilter(String startDateText, String endDateText) throws ParseException {
 		
 		
 		

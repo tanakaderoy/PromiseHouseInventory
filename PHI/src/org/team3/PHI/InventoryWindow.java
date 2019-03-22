@@ -159,21 +159,21 @@ searchTextField.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void removeUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
-				newFilter();
+				textFilter();
 				
 			}
 			
 			@Override
 			public void insertUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
-				newFilter();
+				textFilter();
 				
 			}
 			
 			@Override
 			public void changedUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
-				newFilter();
+				textFilter();
 				
 			}
 		});
@@ -202,7 +202,7 @@ btnSearch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				newFilter();
+				textFilter();
 				
 				
 			}
@@ -249,7 +249,7 @@ inventoryTable.getSelectionModel().addListSelectionListener(new ListSelectionLis
 		            }
 		
 	}
-	public void newFilter() {
+	public void textFilter() {
 		DefaultTableModel model = (DefaultTableModel)inventoryTable.getModel();
 		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
 		
