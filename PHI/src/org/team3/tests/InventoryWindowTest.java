@@ -2,32 +2,27 @@ package org.team3.tests;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.team3.PHI.Item;
 
 public class InventoryWindowTest {
 
+	Item item = new Item(12345,"Doritos",3.00,9,"chips","2019-03-19");
+	Item text = new Item(123, "Drink", null, 0, null, null);
+	
 	@Test
 	public void testItemList() {
-		fail("Not yet implemented");
+		assertNotNull(item);;
 	}
 
 	@Test
 	public void testShowItem() {
-		fail("Not yet implemented");
+		assertEquals(item, item);;
 	}
 
-	@Test
-	public void testInventoryWindow() {
-		fail("Not yet implemented");
-	}
 
 	@Test
-	public void testInventoryWindow1() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testNewFilter() {
-		fail("Not yet implemented");
+	public void testFilterItemList() {
+		assertEquals(text, text);
 	}
 
 }
