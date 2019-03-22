@@ -5,11 +5,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -19,7 +16,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.awt.event.ActionEvent;
@@ -42,9 +38,10 @@ public class AddWindow {
 	private JButton btnCancel;
 	private JButton btnAdd;
 	private JTextField priceTextField;
-	private JComboBox comboBox;
+	private JComboBox<String> comboBox;
 	private Boolean updateOrInsert = false;
 	private JDateChooser dateChooser;
+	TextPrompt txtSearchPrompt;
 	String serialNum = ScanWindow.getSerial();
 	private JTextField addCategoryTextField;
 	ArrayList<String> categories= new ArrayList<String>();
@@ -153,7 +150,7 @@ public class AddWindow {
 		
 		String[] array = categories.toArray(new String[categories.size()]);
 		
-		comboBox = new JComboBox(array);
+		comboBox = new JComboBox<String>(array);
 		comboBox.setBounds(406, 314, 163, 39);
 		
 		frame.getContentPane().add(comboBox);
@@ -232,7 +229,8 @@ public class AddWindow {
 		addCategoryTextField.setBounds(579, 323, 121, 20);
 		frame.getContentPane().add(addCategoryTextField);
 		addCategoryTextField.setColumns(10);
-		TextPrompt txtSearchPrompt = new TextPrompt("Add Extra Categories", addCategoryTextField);
+		
+		txtSearchPrompt = new TextPrompt("Add Extra Categories", addCategoryTextField);
 		
 		JButton btnAddCategory = new JButton("Add Category");
 		btnAddCategory.addActionListener(new ActionListener() {

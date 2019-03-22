@@ -91,7 +91,7 @@ public class TableToExcel {
         this.colTitles = headers;
     }
 
-    private FormatType getFormatType(Class _class) {
+    private FormatType getFormatType(@SuppressWarnings("rawtypes") Class _class) {
         if (_class == Integer.class || _class == Long.class) {
             return FormatType.INTEGER;
         } else if (_class == Float.class || _class == Double.class) {
@@ -103,7 +103,8 @@ public class TableToExcel {
         }
     }
 
-    private void generateFromResultSet(OutputStream outputStream) throws Exception {
+    @SuppressWarnings("rawtypes")
+	private void generateFromResultSet(OutputStream outputStream) throws Exception {
         try {
             ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
             if (formatTypes != null && formatTypes.length != resultSetMetaData.getColumnCount()) {
@@ -150,7 +151,8 @@ public class TableToExcel {
         }
     }
 
-    private void generateFromTable(OutputStream outputStream) throws Exception {
+    @SuppressWarnings("rawtypes")
+	private void generateFromTable(OutputStream outputStream) throws Exception {
         try {
             int numCols = tbl != null ? tbl.getColumnCount() : tm.getColumnCount();
             if (formatTypes != null && formatTypes.length != numCols) {

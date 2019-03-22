@@ -32,6 +32,7 @@ public class InventoryWindow {
 	private JTable inventoryTable;
 	private JTextField searchTextField;
 	private NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+	TextPrompt txtSearchPrompt;
 	
 	
 	public ArrayList<Item> itemList() {
@@ -151,7 +152,7 @@ public class InventoryWindow {
 		
 		searchTextField = new JTextField();
 		searchTextField.setBounds(790, 36, 418, 31);
-		TextPrompt txtSearchPrompt = new TextPrompt("Search by UPC or Product Name", searchTextField);
+		txtSearchPrompt = new TextPrompt("Search by UPC or Product Name", searchTextField);
 		frame.getContentPane().add(searchTextField);
 		searchTextField.setColumns(10);
 searchTextField.getDocument().addDocumentListener(new DocumentListener() {

@@ -1,5 +1,4 @@
 package org.team3.PHI;
-import java.sql.Date;
 
 public class Item {
 	private int quantinty, upc;
