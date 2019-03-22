@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
 	/*INSERT TESTS HERE*/
 	AddWindowTest.class,
 	InventoryWindowTest.class,
-	MainPHITest.class
+	MainPHITest.class,
+	ItemTest.class
 })
 
 public class RunAllTests {
