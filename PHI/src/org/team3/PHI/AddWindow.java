@@ -42,7 +42,7 @@ public class AddWindow {
 	private JButton btnCancel;
 	private JButton btnAdd;
 	private JTextField priceTextField;
-	private JComboBox<String> comboBox;
+	private JComboBox comboBox;
 	private Boolean updateOrInsert = false;
 	private JDateChooser dateChooser;
 	String serialNum = ScanWindow.getSerial();
@@ -160,7 +160,7 @@ public class AddWindow {
 		
 		String[] array = categories.toArray(new String[categories.size()]);
 		
-		comboBox = new JComboBox<String>(array);
+		comboBox = new JComboBox(array);
 		comboBox.setBounds(406, 314, 163, 39);
 		
 		frame.getContentPane().add(comboBox);
@@ -259,6 +259,19 @@ public class AddWindow {
 		});
 		btnAddCategory.setBounds(724, 322, 105, 23);
 		frame.getContentPane().add(btnAddCategory);
+		
+		JButton btnBack = new JButton("Back");
+		btnBack.setBounds(26, 23, 171, 41);
+		frame.getContentPane().add(btnBack);
+		btnBack.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				ScanWindow.scanWindow();
+				frame.setVisible(false);
+			}
+		});
 		
 		
 		
