@@ -126,22 +126,15 @@ public class AddWindow {
 		txtpnQuantity.setBounds(406, 188, 154, 39);
 		frame.getContentPane().add(txtpnQuantity);
 		File newFile = new File("Categories.txt");
-		//newFile.createNewFile();
+		
 		if(newFile.length() == 0) {
 		try {
-			addToCategoriesList("Food");
-		} catch (IOException e3) {
-			// TODO Auto-generated catch block
-			e3.printStackTrace();
-		}
-		try {
-			addToCategoriesList("Toiletries");
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		try {
+			
+			newFile.createNewFile();
+			
 			addToCategoriesList("Supplies");
+			addToCategoriesList("Food");
+			addToCategoriesList("Toiletries");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -294,7 +287,7 @@ public class AddWindow {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		writer.append("\n"+cat);
+		writer.append("\r\n"+cat);
 		
 		writer.close();
 
@@ -309,7 +302,7 @@ public class AddWindow {
 			while (line != null) {
 				
 				// read next line
-				if(!line.equals("")) {
+				if((!line.equals("") && !categories.contains(line))) {
 					System.out.println(line);
 					categories.add(line);
 				}

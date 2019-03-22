@@ -40,7 +40,7 @@ public class InventoryWindow {
 			Class.forName("org.sqlite.JDBC");
 			Connection con = DriverManager.getConnection("jdbc:sqlite:test.db");
 			String query1 = "SELECT * FROM INVENTORY "+
-			"ORDER BY `DATE`;";
+			"ORDER BY `DATE` desc;";
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 			Item item;
