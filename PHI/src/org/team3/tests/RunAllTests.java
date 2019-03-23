@@ -7,9 +7,12 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 	/*INSERT TESTS HERE*/
 	AddWindowTest.class,
+	WindowMainTest.class,
 	InventoryWindowTest.class
 })
 
 public class RunAllTests {
-
+	public void printAllTests() {
+		System.out.println("All Tests");
+	}
 }

@@ -28,13 +28,13 @@ import javax.swing.table.TableRowSorter;
 
 public class InventoryWindow {
 
-	private JFrame frame;
-	private JTable inventoryTable;
+	private static JFrame frame;
+	private static JTable inventoryTable;
 	private JTextField searchTextField;
-	private NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+	private static NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
 	
 	
-	public ArrayList<Item> itemList() {
+	public static ArrayList<Item> itemList() {
 		ArrayList<Item> itemsList = new ArrayList<>();
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -59,7 +59,7 @@ public class InventoryWindow {
 			
 	}
 	
-	public void showItem() {
+	public static void showItem() {
 		ArrayList<Item> list = itemList();
 		DefaultTableModel model = (DefaultTableModel)inventoryTable.getModel();
 
@@ -94,6 +94,7 @@ public class InventoryWindow {
 
 	/**
 	 * Launch the application.
+	 * @return 
 	 */
 	public static void inventoryWindow() {
 		EventQueue.invokeLater(new Runnable() {

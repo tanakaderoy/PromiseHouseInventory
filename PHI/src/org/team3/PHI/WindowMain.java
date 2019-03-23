@@ -8,7 +8,10 @@ import javax.swing.JFrame;
 
 public class WindowMain {
 
-	private JFrame frame;
+	public static JFrame frame;
+	public static JButton btnScanProduct = new JButton("Scan Product");
+	public static JButton btnViewInventory = new JButton("View Inventory");
+	public static JButton btnInventoryReports = new JButton("Inventory Reports");
 
 	/**
 	 * Launch the application.
@@ -42,7 +45,7 @@ public class WindowMain {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JButton btnScanProduct = new JButton("Scan Product");
+		
 		btnScanProduct.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ScanWindow.scanWindow();
@@ -52,7 +55,6 @@ public class WindowMain {
 		btnScanProduct.setBounds(151, 89, 315, 39);
 		frame.getContentPane().add(btnScanProduct);
 		
-		JButton btnViewInventory = new JButton("View Inventory");
 		btnViewInventory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				 
@@ -62,8 +64,6 @@ public class WindowMain {
 		});
 		btnViewInventory.setBounds(151, 139, 315, 44);
 		frame.getContentPane().add(btnViewInventory);
-		
-		JButton btnInventoryReports = new JButton("Inventory Reports");
 		btnInventoryReports.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
