@@ -85,7 +85,7 @@ public class TableColumnAdjuster implements PropertyChangeListener, TableModelLi
 	/*
 	 *  Calculated the width based on the column name
 	 */
-	private int getColumnHeaderWidth(int column)
+	public int getColumnHeaderWidth(int column)
 	{
 		if (! isColumnHeaderIncluded) return 0;
 

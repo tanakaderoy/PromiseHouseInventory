@@ -10,7 +10,8 @@ import org.junit.runners.Suite;
 	InventoryWindowTest.class,
 	MainPHITest.class,
 	ItemTest.class,
-	ReportWindowTest.class
+	ReportWindowTest.class,
+	TableColumnAdjusterTest.class
 	//comment
 })
 
