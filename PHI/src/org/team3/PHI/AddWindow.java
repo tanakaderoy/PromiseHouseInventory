@@ -5,11 +5,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -19,7 +16,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.awt.event.ActionEvent;
@@ -45,6 +41,7 @@ public class AddWindow {
 	private JComboBox<String> comboBox;
 	private Boolean updateOrInsert = false;
 	private JDateChooser dateChooser;
+	TextPrompt txtSearchPrompt;
 	String serialNum = ScanWindow.getSerial();
 	private JTextField addCategoryTextField;
 	ArrayList<String> categories= new ArrayList<String>();
@@ -126,22 +123,15 @@ public class AddWindow {
 		txtpnQuantity.setBounds(406, 188, 154, 39);
 		frame.getContentPane().add(txtpnQuantity);
 		File newFile = new File("Categories.txt");
-		//newFile.createNewFile();
+		
 		if(newFile.length() == 0) {
 		try {
-			addToCategoriesList("Food");
-		} catch (IOException e3) {
-			// TODO Auto-generated catch block
-			e3.printStackTrace();
-		}
-		try {
-			addToCategoriesList("Toiletries");
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		try {
+			
+			newFile.createNewFile();
+			
 			addToCategoriesList("Supplies");
+			addToCategoriesList("Food");
+			addToCategoriesList("Toiletries");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -239,7 +229,8 @@ public class AddWindow {
 		addCategoryTextField.setBounds(579, 323, 121, 20);
 		frame.getContentPane().add(addCategoryTextField);
 		addCategoryTextField.setColumns(10);
-		TextPrompt txtSearchPrompt = new TextPrompt("Add Extra Categories", addCategoryTextField);
+		
+		txtSearchPrompt = new TextPrompt("Add Extra Categories", addCategoryTextField);
 		
 		JButton btnAddCategory = new JButton("Add Category");
 		btnAddCategory.addActionListener(new ActionListener() {
@@ -259,6 +250,19 @@ public class AddWindow {
 		});
 		btnAddCategory.setBounds(724, 322, 105, 23);
 		frame.getContentPane().add(btnAddCategory);
+		
+		JButton btnBack = new JButton("Back");
+		btnBack.setBounds(26, 23, 171, 41);
+		frame.getContentPane().add(btnBack);
+		btnBack.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				ScanWindow.scanWindow();
+				frame.setVisible(false);
+			}
+		});
 		
 		
 		
@@ -281,7 +285,7 @@ public class AddWindow {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		writer.append("\n"+cat);
+		writer.append("\r\n"+cat);
 		
 		writer.close();
 
@@ -296,7 +300,7 @@ public class AddWindow {
 			while (line != null) {
 				
 				// read next line
-				if(!line.equals("")) {
+				if((!line.equals("") && !categories.contains(line))) {
 					System.out.println(line);
 					categories.add(line);
 				}

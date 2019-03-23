@@ -48,13 +48,15 @@ public class ReportWindow {
 	private JTextField txtSearch;
 	private JScrollPane scrollPane;
 	NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+	TextPrompt txtSearchPrompt;
 	
 	public ArrayList<Item> itemList() {
 		ArrayList<Item> itemsList = new ArrayList<>();
 		try {
 			Class.forName("org.sqlite.JDBC");
 			Connection con = DriverManager.getConnection("jdbc:sqlite:test.db");
-			String query1 = "SELECT * FROM INVENTORY";
+			String query1 = "SELECT * FROM INVENTORY " + 
+			"ORDER BY `DATE` desc;";
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 			
@@ -176,7 +178,7 @@ public class ReportWindow {
 		
 		
 		txtSearch = new JTextField();
-		TextPrompt txtSearchPrompt = new TextPrompt("Search by UPC or Product Name", txtSearch);
+		txtSearchPrompt = new TextPrompt("Search by UPC or Product Name", txtSearch);
 		txtSearch.setBounds(248, 36, 407, 39);
 		frame.getContentPane().add(txtSearch);
 		txtSearch.setColumns(10);
@@ -185,21 +187,21 @@ public class ReportWindow {
 			@Override
 			public void removeUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
-				newFilter();
+				textFilter();
 				
 			}
 			
 			@Override
 			public void insertUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
-				newFilter();
+				textFilter();
 				
 			}
 			
 			@Override
 			public void changedUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
-				newFilter();
+				textFilter();
 				
 			}
 		});
@@ -213,7 +215,7 @@ public class ReportWindow {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				newFilter();
+				textFilter();
 				
 			}
 		});
@@ -261,7 +263,12 @@ public class ReportWindow {
 					
 				}
 				
-				filter(sDate,eDate);
+				try {
+					dateRangeFilter(sDate,eDate);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			}
 		});
@@ -303,7 +310,7 @@ public class ReportWindow {
 		
 	}
 	
-	public void newFilter() {
+	public void textFilter() {
 		DefaultTableModel model = (DefaultTableModel)tableDisplayItem.getModel();
 		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
 		
@@ -334,7 +341,7 @@ public class ReportWindow {
 				
 				query1 = "SELECT * FROM 'INVENTORY' " +
 						"where `DATE` between  '"+startDate+"' and '"+endDate+"'"+
-						"ORDER BY `DATE`;";
+						"ORDER BY `DATE` desc;";
 			}
 			System.out.println(query1);
 			Statement st = con.createStatement();
@@ -360,7 +367,7 @@ public class ReportWindow {
     return Double.valueOf(df2.format(val));
 }
 	
-	public void filter(String startDateText, String endDateText) {
+	public void dateRangeFilter(String startDateText, String endDateText) throws ParseException {
 		
 		
 		
@@ -379,6 +386,8 @@ public class ReportWindow {
 			
 		}
 		double sum = RoundTo2Decimals(totalPrice.stream().reduce(0.0, Double::sum));
+		DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat fmt1 = new SimpleDateFormat("MM-dd-yyyy");
 		
 		
 		Vector<Object> row;
@@ -389,7 +398,8 @@ public class ReportWindow {
 			row.add(currencyFormatter.format(list2.get(i).getPrice()));
 			row.add(list2.get(i).getQuantinty());
 			row.add(list2.get(i).getCategory());
-			row.add(list2.get(i).getdate());
+			String date = ""+fmt1.format(fmt.parse(list2.get(i).getdate()))+"";
+			row.add(date);
 			row.add(currencyFormatter.format(sum));
 			
 			//row[3] = list.get(i).getPrice();

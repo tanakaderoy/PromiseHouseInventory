@@ -10,7 +10,7 @@ import org.junit.Test;
  */
 
 /**
- * @author Tanaka
+ * @author Team 3
  *
  */
 public class AddWindowTest {
