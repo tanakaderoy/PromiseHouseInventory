@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import javax.swing.JTable;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.junit.Test;
 import org.team3.PHI.TableColumnAdjuster;
 
@@ -16,12 +17,22 @@ public class TableColumnAdjusterTest {
 
 	@Test
 	public void testgetColumnWidth() {
-		assertEquals(10, test.getColumnHeaderWidth(1));
+		System.out.println(SystemUtils.IS_OS_MAC);
+		if(SystemUtils.IS_OS_MAC) {
+			assertEquals(12, test.getColumnHeaderWidth(1));
+		}else if (SystemUtils.IS_OS_WINDOWS) {
+			assertEquals(10, test.getColumnHeaderWidth(1));
+		}
 	}
 	@Test
 	public void testAdjustColumn() {
 		test.adjustColumn(1);
-		assertEquals(10, test.getColumnHeaderWidth(1));
+		System.out.println(SystemUtils.IS_OS_MAC);
+		if(SystemUtils.IS_OS_MAC) {
+			assertEquals(12, test.getColumnHeaderWidth(1));
+		}else if (SystemUtils.IS_OS_WINDOWS) {
+			assertEquals(10, test.getColumnHeaderWidth(1));
+		}
 	}
 
 	
