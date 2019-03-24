@@ -13,6 +13,7 @@ public class TableColumnAdjusterTest {
 	JTable tester = new JTable(3,3);
 	TableColumnAdjuster test = new TableColumnAdjuster(tester);
 	
+	@SuppressWarnings("deprecation")
 	@Test
 	public void testgetColumnWidth() {
 		Assert.assertEquals(10, test.getColumnHeaderWidth(1));
