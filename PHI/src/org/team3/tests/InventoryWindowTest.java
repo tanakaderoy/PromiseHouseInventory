@@ -1,3 +1,4 @@
+
 package org.team3.tests;
 import static org.junit.Assert.*;
 
@@ -49,3 +50,4 @@ public class InventoryWindowTest {
 	
 
 }
+

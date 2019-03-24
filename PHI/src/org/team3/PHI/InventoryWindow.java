@@ -32,6 +32,8 @@ public class InventoryWindow {
 	private static JTable inventoryTable;
 	private JTextField searchTextField;
 	private static NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+	TextPrompt txtSearchPrompt;
+
 	
 	
 	public static ArrayList<Item> itemList() {
@@ -40,7 +42,7 @@ public class InventoryWindow {
 			Class.forName("org.sqlite.JDBC");
 			Connection con = DriverManager.getConnection("jdbc:sqlite:test.db");
 			String query1 = "SELECT * FROM INVENTORY "+
-			"ORDER BY `DATE`;";
+			"ORDER BY `DATE` desc;";
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 			Item item;
@@ -152,7 +154,7 @@ public class InventoryWindow {
 		
 		searchTextField = new JTextField();
 		searchTextField.setBounds(790, 36, 418, 31);
-		TextPrompt txtSearchPrompt = new TextPrompt("Search by UPC or Product Name", searchTextField);
+		txtSearchPrompt = new TextPrompt("Search by UPC or Product Name", searchTextField);
 		frame.getContentPane().add(searchTextField);
 		searchTextField.setColumns(10);
 searchTextField.getDocument().addDocumentListener(new DocumentListener() {
@@ -160,21 +162,21 @@ searchTextField.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void removeUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
-				newFilter();
+				textFilter();
 				
 			}
 			
 			@Override
 			public void insertUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
-				newFilter();
+				textFilter();
 				
 			}
 			
 			@Override
 			public void changedUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
-				newFilter();
+				textFilter();
 				
 			}
 		});
@@ -203,7 +205,7 @@ btnSearch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				newFilter();
+				textFilter();
 				
 				
 			}
@@ -250,7 +252,7 @@ inventoryTable.getSelectionModel().addListSelectionListener(new ListSelectionLis
 		            }
 		
 	}
-	public void newFilter() {
+	public void textFilter() {
 		DefaultTableModel model = (DefaultTableModel)inventoryTable.getModel();
 		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
 		

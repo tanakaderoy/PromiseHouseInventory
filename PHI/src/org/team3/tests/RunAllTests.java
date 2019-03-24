@@ -1,3 +1,4 @@
+
 package org.team3.tests;
 
 import org.junit.runner.RunWith;
@@ -16,3 +17,4 @@ public class RunAllTests {
 		System.out.println("All Tests");
 	}
 }
+
