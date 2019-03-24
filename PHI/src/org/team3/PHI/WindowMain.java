@@ -18,6 +18,7 @@ public class WindowMain {
 	 */
 	public static void MainWindow() {
 		EventQueue.invokeLater(new Runnable() {
+			@SuppressWarnings("static-access")
 			public void run() {
 				try {
 					WindowMain window = new WindowMain();

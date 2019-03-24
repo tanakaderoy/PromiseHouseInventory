@@ -1,14 +1,12 @@
 package org.team3.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import javax.swing.JTable;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.junit.Test;
 import org.team3.PHI.TableColumnAdjuster;
-
-import junit.framework.Assert;
 
 public class TableColumnAdjusterTest {
 	JTable tester = new JTable(3,3);
