@@ -29,12 +29,12 @@ import javax.swing.table.TableRowSorter;
 public class InventoryWindow {
 
 	private JFrame frame;
-	private JTable inventoryTable;
+	private static JTable inventoryTable;
 	private JTextField searchTextField;
 	private static NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
 	TextPrompt txtSearchPrompt;
 
-	TextPrompt txtSearchPrompt;
+	
 	
 	
 	public static ArrayList<Item> itemList() {
