@@ -11,7 +11,7 @@ import org.junit.runners.Suite;
 	MainPHITest.class,
 	ItemTest.class,
 	ReportWindowTest.class,
-	//TableColumnAdjusterTest.class
+	TableColumnAdjusterTest.class
 	//comment
 })
 
