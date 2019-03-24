@@ -1,8 +1,13 @@
 package org.team3.tests;
 import static org.junit.Assert.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -14,14 +19,60 @@ import org.junit.Test;
  *
  */
 public class AddWindowTest {
+	BufferedReader reader;
+	ArrayList<String> categories = new ArrayList<String>(Arrays.asList("Food","Toiletries","Supplies"));
+	
+	@Before
+	public void setUp() {
+		
+		
+		try {
+			reader = new BufferedReader(new FileReader("categories.txt"));
+			String line = reader.readLine();
+			while (line != null) {
+				
+				
+				// read next line
+				if((!line.equals("") && !categories.contains(line))) {
+					System.out.println(line);
+					categories.add(line);
+				}
+				line=reader.readLine();
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void readerNotNull() {
+		assertNotNull(reader);
+	}
+
+
+	@Test
+	public void testAddFileLineToCat() {
+		
+		
+		
+		assertNotNull(categories);
+	}
+	@Test
+	public void categoriesEquals() {
+		assertEquals("Food", categories.get(0));
+	}
+	@Test
+	public void clearCategories() {
+		categories.clear();
+		assertEquals(0, categories.size());
+	}
+
 
 
 
 	
 
-	/**
-	 * Test method for {@link AddWindow#addToCategoriesList(java.lang.String)}.
-	 */
+	
 	@Test
 	public void testAddToCategoriesList() {
 		
@@ -35,9 +86,7 @@ public class AddWindowTest {
 		
 	}
 
-	/**
-	 * Test method for {@link AddWindow#toggleUpdateOrInsert()}.
-	 */
+	
 	@Test
 	public void testToggleUpdateOrInsert() {
 		

@@ -11,18 +11,20 @@ public class InventoryWindowTest {
 	
 	@Test
 	public void testItemList() {
-		assertNotNull(item);;
+		assertNotNull(item);
 	}
 
 	@Test
 	public void testShowItem() {
-		assertEquals(item, item);;
+		Item itemTester = new Item(12345,"Doritos",3.00,9,"chips","2019-03-19");
+		assertEquals(itemTester.getProductName(), item.getProductName());
 	}
 
 
 	@Test
 	public void testFilterItemList() {
-		assertEquals(text, text);
+		Item textTester = new Item(123, "Drink", null, 0, null, null);
+		assertEquals(textTester.getUPC(), text.getUPC());
 	}
 
 }
