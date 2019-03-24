@@ -9,7 +9,7 @@ public class MainPHI {
 	public static void main(String[] args) {
 		
 		try {
-            // Set System L&F
+            // Set System Look&Feel
         UIManager.setLookAndFeel(
             UIManager.getSystemLookAndFeelClassName());
     } 
