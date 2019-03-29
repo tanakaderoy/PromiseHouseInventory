@@ -28,6 +28,7 @@ import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.RowFilter;
 import javax.swing.RowFilter.ComparisonType;
 import javax.swing.event.DocumentEvent;
@@ -38,6 +39,10 @@ import javax.xml.stream.events.StartDocument;
 import javax.swing.JScrollPane;
 import java.awt.Font;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
 import com.toedter.calendar.JDateChooser;
 
 @SuppressWarnings("unused")
@@ -154,6 +159,30 @@ public class ReportWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		
+		
+		 // setup menu
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu("File");
+        menu.setMnemonic(KeyEvent.VK_F);
+        JMenuItem menuItem = new JMenuItem("Exit");
+        JMenuItem generateExcel = new JMenuItem("Generate Excel");
+        generateExcel.setMnemonic('G');
+        generateExcel.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ALT, KeyEvent.VK_G));
+        
+        menuItem.setMnemonic(KeyEvent.VK_X);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, KeyEvent.ALT_MASK));
+        menuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                System.exit(0);
+            }
+        });
+        menu.add(generateExcel);
+        menu.add(menuItem);
+        menuBar.add(menu);
+        frame.setJMenuBar(menuBar);
+		
+		
 		frame.setBounds(100, 100, 1832, 815);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -162,7 +191,7 @@ public class ReportWindow {
 		btnMainMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				WindowMain.MainWindow();
-				frame.setVisible(false);
+				frame.setVisible(false);;
 			}
 		});
 		btnMainMenu.setBounds(26, 41, 161, 29);
@@ -272,6 +301,15 @@ public class ReportWindow {
 				
 			}
 		});
+		generateExcel.addActionListener(new ActionListener() {
+					
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					btnGenerateReport.doClick();
+						
+						
+				}
+			});
 		btnGenerateReport.addActionListener(new ActionListener() {
 			
 			@Override
