@@ -84,7 +84,7 @@ public class AddWindow {
 		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 961, 622);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		
@@ -175,7 +175,7 @@ public class AddWindow {
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				WindowMain.MainWindow();
+				
 			}
 		});
 		btnCancel.setBounds(262, 470, 188, 20);
@@ -214,8 +214,15 @@ public class AddWindow {
 					System.exit(0);
 				}
 				System.out.println("Product has been added sucessfully!");
+				try {
+					WindowMain2.tableUpdated();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				frame.setVisible(false);
-				WindowMain.MainWindow();
+				
+				
 			}
 			
 			

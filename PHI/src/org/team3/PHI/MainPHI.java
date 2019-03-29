@@ -29,7 +29,7 @@ public class MainPHI {
      //Create and show the GUI.
 
 		// TODO Auto-generated method stub
-		WindowMain.MainWindow();
+		WindowMain2.MainWindow();
 		System.out.println("HeyFellas!");
 		Connection con = null;
 		Statement stmt = null;
