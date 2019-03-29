@@ -9,9 +9,9 @@ public class MainPHI {
 	public static void main(String[] args) {
 		
 		try {
+			com.jtattoo.plaf.acryl.AcrylLookAndFeel.setTheme("Red");
             // Set System Look&Feel
-        UIManager.setLookAndFeel(
-            UIManager.getSystemLookAndFeelClassName());
+			UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
     } 
     catch (UnsupportedLookAndFeelException e) {
        // handle exception
