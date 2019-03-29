@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
@@ -25,10 +26,14 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -158,7 +163,28 @@ public class WindowMain2 {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		  // setup menu
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu("File");
+        menu.setMnemonic(KeyEvent.VK_F);
+        JMenuItem menuItem = new JMenuItem("Exit");
+        JMenuItem generateExcel = new JMenuItem("Generate Excel");
+        
+       
+        generateExcel.setMnemonic(KeyEvent.VK_G);
+        menuItem.setMnemonic(KeyEvent.VK_X);       
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, KeyEvent.ALT_MASK));
+        menuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                System.exit(0);
+            }
+        });
+        menu.add(generateExcel);
+        menu.add(menuItem);
+        menuBar.add(menu);
+        
 		frame = new JFrame();
+		frame.setJMenuBar(menuBar);
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(WindowMain2.class.getResource("/org/team3/PHI/otterbein.jpg")));
 		frame.setBounds(100, 100, 1832, 803);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -311,6 +337,15 @@ scrollPane = new JScrollPane();
 				
 			}
 			});
+		generateExcel.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				btnGenerateReport.doClick();
+					
+					
+			}
+		});
 		btnGenerateReport.addActionListener(new ActionListener() {
 			
 			@Override
