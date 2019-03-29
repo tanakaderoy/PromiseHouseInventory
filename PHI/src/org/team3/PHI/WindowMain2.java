@@ -39,6 +39,7 @@ import javax.swing.table.TableRowSorter;
 
 import com.toedter.calendar.JDateChooser;
 import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class WindowMain2 {
 
@@ -158,6 +159,7 @@ public class WindowMain2 {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(WindowMain2.class.getResource("/org/team3/PHI/otterbein.jpg")));
 		frame.setBounds(100, 100, 1832, 803);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
