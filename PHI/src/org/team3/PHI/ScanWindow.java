@@ -54,7 +54,7 @@ public class ScanWindow {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JButton btnScanIn = new JButton("Scan In");
@@ -95,7 +95,7 @@ public class ScanWindow {
 		btnMainMenu = new JButton("Main Menu");
 		btnMainMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				WindowMain.MainWindow();
+				
 				frame.setVisible(false);
 			}
 		});
