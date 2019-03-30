@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="poi-contrib-3.5-final.jar"/>
 	<classpathentry kind="lib" path="commons-lang-2.6.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/Users/blasi/git/comp4100-spring2019-3/PHI/JTattoo-1.6.11.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
