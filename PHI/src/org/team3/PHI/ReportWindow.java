@@ -67,7 +67,7 @@ public class ReportWindow {
 			
 			Item item;
 			while(rs.next()) {
-				item = new Item(rs.getInt("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
+				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
 				
 				itemsList.add(item);
 			}
@@ -115,9 +115,9 @@ public class ReportWindow {
 			row.add(list.get(i).getUPC());
 			row.add(list.get(i).getProductName());
 			row.add(currencyFormatter.format(list.get(i).getPrice()));
-			row.add(list.get(i).getQuantinty());
+			row.add(list.get(i).getQuantity());
 			row.add(list.get(i).getCategory());
-			String date = ""+fmt1.format(fmt.parse(list.get(i).getdate()))+"";
+			String date = ""+fmt1.format(fmt.parse(list.get(i).getDate()))+"";
 			row.add(date);
 			
 			
@@ -387,7 +387,7 @@ public class ReportWindow {
 			
 			Item item;
 			while(rs.next()) {
-				item = new Item(rs.getInt("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
+				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
 				
 				itemsList2.add(item);
 			}
@@ -434,9 +434,9 @@ public class ReportWindow {
 			row.add(list2.get(i).getUPC());
 			row.add(list2.get(i).getProductName());
 			row.add(currencyFormatter.format(list2.get(i).getPrice()));
-			row.add(list2.get(i).getQuantinty());
+			row.add(list2.get(i).getQuantity());
 			row.add(list2.get(i).getCategory());
-			String date = ""+fmt1.format(fmt.parse(list2.get(i).getdate()))+"";
+			String date = ""+fmt1.format(fmt.parse(list2.get(i).getDate()))+"";
 			row.add(date);
 			row.add(currencyFormatter.format(sum));
 			

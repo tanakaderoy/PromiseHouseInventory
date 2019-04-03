@@ -1,13 +1,23 @@
 package org.team3.PHI;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -87,7 +97,7 @@ public class WindowMain2 {
 			
 			Item item;
 			while(rs.next()) {
-				item = new Item(rs.getInt("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
+				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
 				
 				itemsList.add(item);
 			}
@@ -107,8 +117,10 @@ public class WindowMain2 {
 		model.setRowCount(0);
 		tableDisplayItem.setRowHeight(30);
 		tableDisplayItem.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		
 		TableColumnAdjuster tca = new TableColumnAdjuster(tableDisplayItem);
 		tca.adjustColumns();
+		tableDisplayItem.setAutoCreateRowSorter(true);
 		
 		model.addColumn("UPC");
 		model.addColumn("PRODUCT NAME");
@@ -135,9 +147,9 @@ public class WindowMain2 {
 			row.add(list.get(i).getUPC());
 			row.add(list.get(i).getProductName());
 			row.add(currencyFormatter.format(list.get(i).getPrice()));
-			row.add(list.get(i).getQuantinty());
+			row.add(list.get(i).getQuantity());
 			row.add(list.get(i).getCategory());
-			String date = ""+fmt1.format(fmt.parse(list.get(i).getdate()))+"";
+			String date = ""+fmt1.format(fmt.parse(list.get(i).getDate()))+"";
 			row.add(date);
 			
 			
@@ -157,7 +169,11 @@ public class WindowMain2 {
 	public WindowMain2() throws Exception {
 		initialize();
 		showItem();
+		
 	}
+	
+	
+	
 
 	/**
 	 * Initialize the contents of the frame.
@@ -208,6 +224,22 @@ public class WindowMain2 {
 		tableDisplayItem = new JTable();
 		tableDisplayItem.setBounds(0, 157, 1487, 607);
 		tableDisplayItem.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		tableDisplayItem.addFocusListener(new FocusListener() {
+			//DefaultTableModel model = (DefaultTableModel)tableDisplayItem.getModel();
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				tableDisplayItem.getSelectionModel().clearSelection();
+				
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 scrollPane = new JScrollPane();
 		
 		scrollPane.setBounds(0, 157, 1487, 607);
@@ -424,9 +456,9 @@ scrollPane = new JScrollPane();
 			row.add(list.get(i).getUPC());
 			row.add(list.get(i).getProductName());
 			row.add(currencyFormatter.format(list.get(i).getPrice()));
-			row.add(list.get(i).getQuantinty());
+			row.add(list.get(i).getQuantity());
 			row.add(list.get(i).getCategory());
-			String date = ""+fmt1.format(fmt.parse(list.get(i).getdate()))+"";
+			String date = ""+fmt1.format(fmt.parse(list.get(i).getDate()))+"";
 			row.add(date);
 			
 			
@@ -452,6 +484,7 @@ scrollPane = new JScrollPane();
 		                model.removeRow(row);
 
 		                try {
+		                	Class.forName("org.sqlite.JDBC");
 		                    Connection conn = (Connection) DriverManager.getConnection("jdbc:sqlite:test.db");
 		                    PreparedStatement ps = conn.prepareStatement("delete from INVENTORY where UPC='"+selected+"' ");
 		                    ps.executeUpdate();
@@ -462,6 +495,7 @@ scrollPane = new JScrollPane();
 		                    JOptionPane.showMessageDialog(tableDisplayItem, "Connection Error!");
 		                }          
 		            }
+		
 	}
 	
 	public ArrayList<Item> filterItemList(String startDate, String endDate) {
@@ -485,7 +519,7 @@ scrollPane = new JScrollPane();
 			
 			Item item;
 			while(rs.next()) {
-				item = new Item(rs.getInt("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
+				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
 				
 				itemsList2.add(item);
 			}
@@ -532,9 +566,9 @@ scrollPane = new JScrollPane();
 			row.add(list2.get(i).getUPC());
 			row.add(list2.get(i).getProductName());
 			row.add(currencyFormatter.format(list2.get(i).getPrice()));
-			row.add(list2.get(i).getQuantinty());
+			row.add(list2.get(i).getQuantity());
 			row.add(list2.get(i).getCategory());
-			String date = ""+fmt1.format(fmt.parse(list2.get(i).getdate()))+"";
+			String date = ""+fmt1.format(fmt.parse(list2.get(i).getDate()))+"";
 			row.add(date);
 			row.add(currencyFormatter.format(sum));
 			

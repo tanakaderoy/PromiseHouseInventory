@@ -5,14 +5,14 @@ import org.junit.Test;
 import org.team3.PHI.Item;
 
 public class ItemTest {
-	Item item = new Item(12345,"Doritos",3.00,9,"chips","2019-03-19");
+	Item item = new Item("12345","Doritos",3.00,9,"chips","2019-03-19");
 	@Test
 	public void itemNotNull() {
 		assertNotNull(item);
 	}
 	@Test
 	public void testGetUPC() {
-		assertEquals(12345, item.getUPC());
+		assertEquals("12345", item.getUPC());
 	}
 
 	@Test
@@ -22,7 +22,7 @@ public class ItemTest {
 
 	@Test
 	public void testGetQuantinty() {
-		assertEquals(9, item.getQuantinty());
+		assertEquals(9, item.getQuantity());
 	}
 
 	@Test
@@ -32,7 +32,7 @@ public class ItemTest {
 
 	@Test
 	public void testGetdate() {
-		assertEquals("2019-03-19", item.getdate());
+		assertEquals("2019-03-19", item.getDate());
 	}
 
 	@Test

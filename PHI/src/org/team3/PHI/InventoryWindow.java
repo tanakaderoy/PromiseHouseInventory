@@ -53,7 +53,7 @@ public class InventoryWindow {
 			ResultSet rs = st.executeQuery(query1);
 			Item item;
 			while(rs.next()) {
-				item = new Item(rs.getInt("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
+				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
 				itemsList.add(item);
 			}
 			st.executeUpdate(query1);
@@ -90,9 +90,9 @@ public class InventoryWindow {
 			row.add(list.get(i).getUPC());
 			row.add(list.get(i).getProductName());
 			row.add(currencyFormatter.format(list.get(i).getPrice()));
-			row.add(list.get(i).getQuantinty());
+			row.add(list.get(i).getQuantity());
 			row.add(list.get(i).getCategory());
-			row.add(list.get(i).getdate());
+			row.add(list.get(i).getDate());
 			//row[3] = list.get(i).getPrice();
 			model.addRow(row);
 		}

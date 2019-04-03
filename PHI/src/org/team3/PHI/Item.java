@@ -1,21 +1,21 @@
 package org.team3.PHI;
 
 public class Item {
-	private int quantinty, upc;
-	private String productName, categoryName;
+	private int quantity;
+	private String productName, categoryName,upc;
 	private String date;
 
-	private Double price;
+	private double price;
 	
-	public Item(int upc, String productName,Double price, int quantinty, String categoryName, String date) {
+	public Item(String upc, String productName,double price, int quantity, String categoryName, String date) {
 		this.upc = upc;
 		this.productName = productName;
-		this.quantinty = quantinty;
+		this.quantity = quantity;
 		this.categoryName = categoryName;
 		this.date = date;
 		this.price = price;
 	}
-	public int getUPC() {
+	public String getUPC() {
 		return upc;
 	}
 	
@@ -23,13 +23,13 @@ public class Item {
 		return productName;
 	}
 	
-	public int getQuantinty() {
-		return quantinty;
+	public int getQuantity() {
+		return quantity;
 	}
 	public String getCategory() {
 		return categoryName;
 	}
-	public String getdate() {
+	public String getDate() {
 		System.out.print(date);
 		
 		

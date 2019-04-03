@@ -39,7 +39,7 @@ public class MainPHI {
 			System.out.println("Opened database sucessfully");
 			stmt = con.createStatement();
 			String sql = "CREATE TABLE INVENTORY" +
-							"(UPC INT PRIMARY KEY    NOT NULL," +
+							"(UPC varchar(50) PRIMARY KEY    NOT NULL," +
 							"PRODUCT_NAME    TEXT    NOT NULL," +
 							"PRICE      decimal(8,2) NOT NULL," +
 							"QUANTITY         INT    NOT NULL," +
