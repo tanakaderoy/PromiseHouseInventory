@@ -79,15 +79,7 @@ public class AddWindow {
 			serialNum = "0";
 
 		}
-		if(updateOrInsert) {
-		try {
-			
-			request();
-		} catch (IOException | JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		}
+		
 		autoFill();
 
 	}
@@ -244,7 +236,7 @@ public class AddWindow {
 						stmt = con.createStatement();
 						String sql;
 
-						if(updateOrInsert) {
+						if(!updateOrInsert) {
 							sql = "INSERT INTO INVENTORY (UPC, PRODUCT_NAME,PRICE, QUANTITY, CATEGORY, DATE)" +
 									"VALUES ("+upcText.getText()+",'"+productText.getText()+"',"+"'"+price+"',"+
 									quantity+",'"+comboBox.getSelectedItem().toString()+"',"+"date((julianday("+"'"+fmt.format(dateChooser.getDate())+"'"+")))"+");";
@@ -451,8 +443,17 @@ public class AddWindow {
 
 
 
-				updateOrInsert = false;
-			}else {
+				updateOrInsert = true;
+			}else if(!updateOrInsert) {
+				try {
+					
+					request();
+				} catch (IOException | JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+			{
 				upcText.setText(serialNum);
 				toggleUpdateOrInsert();
 			}
