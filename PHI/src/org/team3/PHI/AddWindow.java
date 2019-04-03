@@ -236,7 +236,7 @@ public class AddWindow {
 						stmt = con.createStatement();
 						String sql;
 
-						if(!updateOrInsert) {
+						if(updateOrInsert) {
 							sql = "INSERT INTO INVENTORY (UPC, PRODUCT_NAME,PRICE, QUANTITY, CATEGORY, DATE)" +
 									"VALUES ("+upcText.getText()+",'"+productText.getText()+"',"+"'"+price+"',"+
 									quantity+",'"+comboBox.getSelectedItem().toString()+"',"+"date((julianday("+"'"+fmt.format(dateChooser.getDate())+"'"+")))"+");";
@@ -359,6 +359,7 @@ public class AddWindow {
 			priceTextField.setText(""+merchant.getDouble("price"));
 
 		}
+		
 	}
 
 	public void addToCategoriesList(String cat) throws IOException{

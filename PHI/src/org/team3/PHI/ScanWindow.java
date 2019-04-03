@@ -49,7 +49,7 @@ public class ScanWindow {
 	 * Create the application.
 	 */
 	public static String getSerial() {
-		String serialNum = txtSerialCode.getText();
+		String serialNum = txtSerialCode.getText().replaceAll("\\s+", "");
 
 
 
