@@ -67,7 +67,7 @@ public class ReportWindow {
 			
 			Item item;
 			while(rs.next()) {
-				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
+				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"),  rs.getInt("Weight"), rs.getInt("QUANTITY"), rs.getString("DONOR"), rs.getString("CATEGORY"), rs.getString("DATE"));
 				
 				itemsList.add(item);
 			}
@@ -94,7 +94,9 @@ public class ReportWindow {
 		model.addColumn("PRODUCT NAME");
 		model.addColumn("Price");
 		model.addColumn("QUANTITY");
+		model.addColumn("WEIGHT");
 		model.addColumn("Category");
+		model.addColumn("DONOR");
 		model.addColumn("DATE");
 		model.addColumn("Total Price");
 		List<Double> totalPrice = new ArrayList<Double>();
@@ -115,7 +117,9 @@ public class ReportWindow {
 			row.add(list.get(i).getUPC());
 			row.add(list.get(i).getProductName());
 			row.add(currencyFormatter.format(list.get(i).getPrice()));
+			row.add(list.get(i).getWeight());
 			row.add(list.get(i).getQuantity());
+			row.add(list.get(i).getDonor());
 			row.add(list.get(i).getCategory());
 			String date = ""+fmt1.format(fmt.parse(list.get(i).getDate()))+"";
 			row.add(date);
@@ -387,7 +391,7 @@ public class ReportWindow {
 			
 			Item item;
 			while(rs.next()) {
-				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
+				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"),  rs.getInt("Wieght"), rs.getInt("QUANTITY"), rs.getString("DONOR"), rs.getString("CATEGORY"), rs.getString("DATE"));
 				
 				itemsList2.add(item);
 			}
@@ -434,7 +438,9 @@ public class ReportWindow {
 			row.add(list2.get(i).getUPC());
 			row.add(list2.get(i).getProductName());
 			row.add(currencyFormatter.format(list2.get(i).getPrice()));
+			row.add(list2.get(i).getWeight());
 			row.add(list2.get(i).getQuantity());
+			row.add(list2.get(i).getDonor());
 			row.add(list2.get(i).getCategory());
 			String date = ""+fmt1.format(fmt.parse(list2.get(i).getDate()))+"";
 			row.add(date);
