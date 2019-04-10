@@ -42,7 +42,9 @@ public class MainPHI {
 							"(UPC varchar(50) PRIMARY KEY    NOT NULL," +
 							"PRODUCT_NAME    TEXT    NOT NULL," +
 							"PRICE      decimal(8,2) NOT NULL," +
+							"WEIGHT          INT     NOT NULL,"+
 							"QUANTITY         INT    NOT NULL," +
+							"DONOR           TEXT    NOT NULL,"+
 							"CATEGORY        TEXT    NOT NULL," +
 							"DATE            INT    NOT NULL)" ;
 			stmt.executeUpdate(sql);
@@ -57,3 +59,6 @@ public class MainPHI {
 	}
 
 }
+
+
+
