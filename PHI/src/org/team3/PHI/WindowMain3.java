@@ -70,12 +70,12 @@ public class WindowMain3 {
 	private JTextField txtUpc;
 	private JTextField textField;
 	private TextPrompt searchTextPrompt;
-	
+
 	private static final int GAP = 20;
 	private static final int MARGIN = 25;
 	public static void MainWindow() {
 		EventQueue.invokeLater(new Runnable() {
-			
+
 			public void run() {
 				try {
 					WindowMain3 window = new WindowMain3();
@@ -86,8 +86,8 @@ public class WindowMain3 {
 			}
 		});
 	}
-	
-	
+
+
 	public static ArrayList<Item> itemList() {
 		ArrayList<Item> itemsList = new ArrayList<>();
 		try {
@@ -100,7 +100,7 @@ public class WindowMain3 {
 
 			Item item;
 			while(rs.next()) {
-				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
+				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"),  rs.getInt("Weight"), rs.getInt("QUANTITY"), rs.getString("DONOR"), rs.getString("CATEGORY"), rs.getString("DATE"));
 
 				itemsList.add(item);
 			}
@@ -128,7 +128,9 @@ public class WindowMain3 {
 		model.addColumn("UPC");
 		model.addColumn("PRODUCT NAME");
 		model.addColumn("Price");
+		model.addColumn("Weight");
 		model.addColumn("QUANTITY");
+		model.addColumn("Donor");
 		model.addColumn("Category");
 		model.addColumn("DATE");
 		model.addColumn("Total Price");
@@ -150,7 +152,9 @@ public class WindowMain3 {
 			row.add(list.get(i).getUPC());
 			row.add(list.get(i).getProductName());
 			row.add(currencyFormatter.format(list.get(i).getPrice()));
+			row.add(list.get(i).getWeight());
 			row.add(list.get(i).getQuantity());
+			row.add(list.get(i).getDonor());
 			row.add(list.get(i).getCategory());
 			String date = ""+fmt1.format(fmt.parse(list.get(i).getDate()))+"";
 			row.add(date);
@@ -179,7 +183,7 @@ public class WindowMain3 {
 	 * @wbp.parser.entryPoint
 	 */
 	public void initialize(){  
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new JMenu("File");
 		menu.setMnemonic(KeyEvent.VK_F);
@@ -198,38 +202,39 @@ public class WindowMain3 {
 		menu.add(generateExcel);
 		menu.add(menuItem);
 		menuBar.add(menu);
-		
+
 		frame=new JFrame("PHI");
 		frame.setJMenuBar(menuBar);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(WindowMain3.class.getResource("/org/team3/PHI/otterbein.jpg")));
 		frame.getContentPane().setLayout(new BorderLayout());
-		
-		
+
+
 		JPanel eastPanel = new JPanel();
 		eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.PAGE_AXIS));
 		eastPanel.setBorder(BorderFactory.createEmptyBorder(MARGIN, MARGIN, MARGIN, MARGIN));
 		frame.getContentPane().add(eastPanel, BorderLayout.EAST);
-		
-		
-		
-		
+
+
+
+
 		txtUpc = new JTextField();
 		txtUpc.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+
 		eastPanel.add(txtUpc);
 		txtUpc.setText("UPC");
-		
+
 		txtUpc.setColumns(15);
 		txtUpc.setMaximumSize(txtUpc.getPreferredSize());
 		//Component rigidArea = Box.createRigidArea(new Dimension(20, 70));
 		//verticalBox.add(rigidArea);
-	
+
 		eastPanel.add(Box.createVerticalStrut(GAP));
-		
+
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		
+
+
 		JButton scanInButton = new JButton("Scan In");
 		scanInButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -238,30 +243,30 @@ public class WindowMain3 {
 			}
 		});
 		buttonPanel.add(scanInButton);
-	
-		
+
+
 		JButton scanOutButton = new JButton("Scan Out");
-		
+
 		buttonPanel.add(scanOutButton);
-		
+
 		eastPanel.add(buttonPanel);
-		
+
 		eastPanel.add(Box.createVerticalGlue());
-		
-		
+
+
 		JPanel centerPanel = new JPanel(new GridLayout(1,2));
-		
-		
-		
+
+
+
 		JScrollPane scrollPane = new JScrollPane();
 		centerPanel.setBorder( BorderFactory.createTitledBorder("Inventory"));
 		centerPanel.add(scrollPane);
 		frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
-		
+
 		tableDisplayItem = new JTable();
 		JButton deleteButton = new JButton("Delete");
 		deleteButton.setEnabled(false);
-		
+
 		deleteButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -271,7 +276,7 @@ public class WindowMain3 {
 
 			}
 		});
-		
+
 		tableDisplayItem.addFocusListener(new FocusListener() {
 			//DefaultTableModel model = (DefaultTableModel)tableDisplayItem.getModel();
 
@@ -291,15 +296,15 @@ public class WindowMain3 {
 			}
 		});
 		scrollPane.setViewportView(tableDisplayItem);
-		
+
 		JPanel northPanel = new JPanel();
 		frame.getContentPane().add(northPanel, BorderLayout.NORTH);
 		northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.LINE_AXIS));
 		northPanel.setBorder(BorderFactory.createEmptyBorder(MARGIN, MARGIN, MARGIN, MARGIN));
-		
+
 		searchTextField = new JTextField();
 		searchTextPrompt = new TextPrompt("Search by UPC or Product Name", searchTextField);
-		
+
 		northPanel.add(searchTextField);
 		searchTextField.setColumns(15);
 		searchTextField.setMaximumSize(searchTextField.getPreferredSize());
@@ -326,8 +331,8 @@ public class WindowMain3 {
 
 			}
 		});
-		
-		
+
+
 		JButton searchButton = new JButton("Search");
 		searchButton.addActionListener(new ActionListener() {
 
@@ -338,44 +343,44 @@ public class WindowMain3 {
 
 			}
 		});
-		
+
 		northPanel.add(Box.createHorizontalStrut(GAP));
-		
-	
+
+
 		northPanel.add(searchButton);
-		
+
 		northPanel.add(Box.createHorizontalStrut(2*GAP));
 		northPanel.add(Box.createHorizontalGlue());
-		
+
 		JLabel lblStartDate = new JLabel("Start Date");
-		
+
 
 		DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 		JDateChooser startDateChooser = new JDateChooser();
 		startDateChooser.setMaximumSize(startDateChooser.getPreferredSize());
 
 
-		
-		
-		
+
+
+
 		lblStartDate.setMaximumSize(lblStartDate.getPreferredSize());
 		northPanel.add(lblStartDate);
 		northPanel.add(startDateChooser);
-		
+
 		northPanel.add(Box.createHorizontalStrut(GAP));
-		
+
 
 		JLabel lblEndDate = new JLabel("End Date");
-		
+
 
 
 		JDateChooser endDateChooser = new JDateChooser();
-		
+
 		endDateChooser.setMaximumSize(endDateChooser.getPreferredSize());
 		lblEndDate.setMaximumSize(lblEndDate.getPreferredSize());
 		northPanel.add(lblEndDate);
 		northPanel.add(endDateChooser);
-		
+
 		northPanel.add(Box.createHorizontalStrut(GAP));
 
 		JButton btnFilterByDate = new JButton("Filter By Date");
@@ -403,8 +408,8 @@ public class WindowMain3 {
 
 			}
 		});
-		
-		
+
+
 		tableDisplayItem.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 
 			@Override
@@ -440,9 +445,9 @@ public class WindowMain3 {
 
 				if(startDateChooser.getDate() == null && endDateChooser.getDate() == null) {
 					fileName = JOptionPane.showInputDialog("enter filename for report");
-					
-					
-					
+
+
+
 					//optional -> tte.setCustomTitles(colTitles);
 					File myFile = new File(""+fileName+".xls");
 					try {
@@ -457,7 +462,7 @@ public class WindowMain3 {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					
+
 				}else {
 					sDate = ""+fmt.format(startDateChooser.getDate())+"";
 					eDate = ""+fmt.format(endDateChooser.getDate())+"";
@@ -478,19 +483,19 @@ public class WindowMain3 {
 
 				}
 				// TODO Auto-generated method stub
-				
+
 
 			}
 		});
-		
-		
+
+
 		eastPanel.add(generateReportButton);
 		northPanel.add(btnFilterByDate);
 		northPanel.add(deleteButton);
-		
-		
+
+
 		frame.addFocusListener(new FocusListener() {
-			
+
 			@Override
 			public void focusLost(FocusEvent e) {
 				// TODO Auto-generated method stub
@@ -500,29 +505,29 @@ public class WindowMain3 {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
+
 			}
-			
+
 			@Override
 			public void focusGained(FocusEvent e) {
 				// TODO Auto-generated method stub
 				if(frame.isActive()) {
-				try {
-					tableUpdated();
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					try {
+						tableUpdated();
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
-				}
-				
+
 			}
 		});
-		
+
 		frame.pack();
-		
+
 		frame.setMinimumSize(frame.getPreferredSize());
 	}
-	
+
 	public void textFilter() {
 		DefaultTableModel model = (DefaultTableModel)tableDisplayItem.getModel();
 		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(model);
@@ -567,7 +572,9 @@ public class WindowMain3 {
 			row.add(list.get(i).getUPC());
 			row.add(list.get(i).getProductName());
 			row.add(currencyFormatter.format(list.get(i).getPrice()));
+			row.add(list.get(i).getWeight());
 			row.add(list.get(i).getQuantity());
+			row.add(list.get(i).getDonor());
 			row.add(list.get(i).getCategory());
 			String date = ""+fmt1.format(fmt.parse(list.get(i).getDate()))+"";
 			row.add(date);
@@ -630,7 +637,7 @@ public class WindowMain3 {
 
 			Item item;
 			while(rs.next()) {
-				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
+				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"),  rs.getInt("Weight"), rs.getInt("QUANTITY"), rs.getString("DONOR"), rs.getString("CATEGORY"), rs.getString("DATE"));
 
 				itemsList2.add(item);
 			}
@@ -643,7 +650,7 @@ public class WindowMain3 {
 		return itemsList2;
 
 	}
-	
+
 
 	public void dateRangeFilter(String startDateText, String endDateText) throws ParseException {
 
@@ -674,7 +681,9 @@ public class WindowMain3 {
 			row.add(list2.get(i).getUPC());
 			row.add(list2.get(i).getProductName());
 			row.add(currencyFormatter.format(list2.get(i).getPrice()));
+			row.add(list2.get(i).getWeight());
 			row.add(list2.get(i).getQuantity());
+			row.add(list2.get(i).getDonor());
 			row.add(list2.get(i).getCategory());
 			String date = ""+fmt1.format(fmt.parse(list2.get(i).getDate()))+"";
 			row.add(date);
@@ -684,11 +693,11 @@ public class WindowMain3 {
 			model1.addRow(row);
 		}
 	}
-	
-	
+
+
 	String RoundTo2Decimals(double val) {
-	//	DecimalFormat df2 = new DecimalFormat("###.##");
-	//	return Double.valueOf(df2.format(val));
+		//	DecimalFormat df2 = new DecimalFormat("###.##");
+		//	return Double.valueOf(df2.format(val));
 		return String.format("%.2d", val);
 	}
 
