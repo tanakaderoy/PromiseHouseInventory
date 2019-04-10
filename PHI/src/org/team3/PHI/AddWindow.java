@@ -44,6 +44,8 @@ public class AddWindow {
 	private JLabel txtpnCategory;
 	private JButton btnCancel;
 	private JButton btnAdd;
+	private JTextField donorTextField;
+	private JTextField weightTextField;
 	private JTextField priceTextField;
 	private JComboBox<String> comboBox;
 	private Boolean updateOrInsert = false;
@@ -169,7 +171,22 @@ public class AddWindow {
 		lblDate.setBounds(406, 356, 115, 33);
 		frame.getContentPane().add(lblDate);
 
-
+		
+		JLabel lblDonor = new JLabel("Donor");
+		lblDonor.setBounds(196, 188, 115,33);
+		frame.getContentPane().add(lblDonor);
+		donorTextField = new JTextField();
+		donorTextField.setBounds(141, 230, 150,30);
+		frame.getContentPane().add(donorTextField);
+		
+		
+		JLabel lblWeight = new JLabel("Weight");
+		lblWeight.setBounds(196,277, 115,33);
+		frame.getContentPane().add(lblWeight);
+		weightTextField = new JTextField();
+		weightTextField.setBounds(141,314, 100, 30);
+		frame.getContentPane().add(weightTextField);
+		
 
 		JLabel lblPrice = new JLabel("Price");
 		lblPrice.setBounds(196, 107, 115, 33);
@@ -207,7 +224,7 @@ public class AddWindow {
 				}
 				catch(NumberFormatException ee) {
 
-					JOptionPane.showMessageDialog(frame, "Error: Quantity must be a positive integer");
+					JOptionPane.showMessageDialog(frame, "Error: Quantity must be a positive integer quantity");
 					success = false;
 				}
 
@@ -221,6 +238,18 @@ public class AddWindow {
 				}catch(NumberFormatException ee){
 					JOptionPane.showMessageDialog(frame, "Error: Price must be a non negative decimal with no currency symbol");
 					success = false;
+				}
+				
+				double weight = 0;
+				try {
+					weight = Double.parseDouble(weightTextField.getText().trim());
+					if(weight<0) {
+						throw new NumberFormatException();
+					} 
+						
+					}catch(NumberFormatException ee) {
+						JOptionPane.showMessageDialog(frame, "Error: Quantity must be a positive integer for weight");
+						success = false;
 				}
 
 				if( success ) {
@@ -237,9 +266,9 @@ public class AddWindow {
 						String sql;
 
 						if(updateOrInsert) {
-							sql = "INSERT INTO INVENTORY (UPC, PRODUCT_NAME,PRICE, QUANTITY, CATEGORY, DATE)" +
-									"VALUES ("+upcText.getText()+",'"+productText.getText()+"',"+"'"+price+"',"+
-									quantity+",'"+comboBox.getSelectedItem().toString()+"',"+"date((julianday("+"'"+fmt.format(dateChooser.getDate())+"'"+")))"+");";
+							sql = "INSERT INTO INVENTORY (UPC, PRODUCT_NAME,PRICE, WEIGHT, QUANTITY, DONOR, CATEGORY, DATE)" +
+									"VALUES ("+upcText.getText()+" , ' "+productText.getText()+" ', ' "+price+" ',' "+weight+"  ', ' "+
+									quantity+"',' "+donorTextField.getText()+"',' "+comboBox.getSelectedItem().toString()+"',"+"date((julianday("+"'"+fmt.format(dateChooser.getDate())+"'"+")))"+");";
 						}else {
 							sql = "UPDATE INVENTORY SET PRODUCT_NAME = '"+productText.getText()+"', PRICE = "+price+", QUANTITY = "+quantity +" WHERE UPC = "+upcText.getText()+"; ";					
 						}
@@ -419,13 +448,13 @@ public class AddWindow {
 			query1 = "SELECT * FROM 'INVENTORY' WHERE UPC ="+serialNum+"";
 
 
-			System.out.println(query1);
+			//System.out.println(query1);
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 
 			Item item;
 			if(rs.next()) {
-				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
+				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"),  rs.getInt("Weight"), rs.getInt("QUANTITY"), rs.getString("DONOR"), rs.getString("CATEGORY"), rs.getString("DATE"));
 
 				itemsList2.add(item);
 			}else {
@@ -470,4 +499,6 @@ public class AddWindow {
 
 	}
 }
+
+
 

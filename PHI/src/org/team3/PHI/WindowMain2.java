@@ -97,7 +97,7 @@ public class WindowMain2 {
 
 			Item item;
 			while(rs.next()) {
-				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
+				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"),  rs.getInt("Weight"), rs.getInt("QUANTITY"), rs.getString("DONOR"), rs.getString("CATEGORY"), rs.getString("DATE"));
 
 				itemsList.add(item);
 			}
@@ -125,7 +125,9 @@ public class WindowMain2 {
 		model.addColumn("UPC");
 		model.addColumn("PRODUCT NAME");
 		model.addColumn("Price");
+		model.addColumn("Weight");
 		model.addColumn("QUANTITY");
+		model.addColumn("Donor");
 		model.addColumn("Category");
 		model.addColumn("DATE");
 		model.addColumn("Total Price");
@@ -147,10 +149,14 @@ public class WindowMain2 {
 			row.add(list.get(i).getUPC());
 			row.add(list.get(i).getProductName());
 			row.add(currencyFormatter.format(list.get(i).getPrice()));
+			row.add(list.get(i).getWeight());
 			row.add(list.get(i).getQuantity());
+			row.add(list.get(i).getDonor());
 			row.add(list.get(i).getCategory());
 			String date = ""+fmt1.format(fmt.parse(list.get(i).getDate()))+"";
 			row.add(date);
+			
+			
 
 
 			row.add(currencyFormatter.format(sum));
@@ -459,7 +465,9 @@ public class WindowMain2 {
 			row.add(list.get(i).getUPC());
 			row.add(list.get(i).getProductName());
 			row.add(currencyFormatter.format(list.get(i).getPrice()));
+			row.add(list.get(i).getWeight());
 			row.add(list.get(i).getQuantity());
+			row.add(list.get(i).getDonor());
 			row.add(list.get(i).getCategory());
 			String date = ""+fmt1.format(fmt.parse(list.get(i).getDate()))+"";
 			row.add(date);
@@ -516,13 +524,13 @@ public class WindowMain2 {
 						"where `DATE` between  '"+startDate+"' and '"+endDate+"'"+
 						"ORDER BY `DATE` desc;";
 			}
-			System.out.println(query1);
+			//System.out.println(query1);
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 
 			Item item;
 			while(rs.next()) {
-				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
+				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"),  rs.getInt("Weight"), rs.getInt("QUANTITY"), rs.getString("DONOR"), rs.getString("CATEGORY"), rs.getString("DATE"));
 
 				itemsList2.add(item);
 			}
@@ -569,7 +577,9 @@ public class WindowMain2 {
 			row.add(list2.get(i).getUPC());
 			row.add(list2.get(i).getProductName());
 			row.add(currencyFormatter.format(list2.get(i).getPrice()));
+			row.add(list2.get(i).getWeight());
 			row.add(list2.get(i).getQuantity());
+			row.add(list2.get(i).getDonor());
 			row.add(list2.get(i).getCategory());
 			String date = ""+fmt1.format(fmt.parse(list2.get(i).getDate()))+"";
 			row.add(date);
@@ -580,3 +590,5 @@ public class WindowMain2 {
 		}
 	}
 }
+
+

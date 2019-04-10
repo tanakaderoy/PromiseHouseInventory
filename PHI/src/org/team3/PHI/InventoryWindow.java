@@ -53,8 +53,7 @@ public class InventoryWindow {
 			ResultSet rs = st.executeQuery(query1);
 			Item item;
 			while(rs.next()) {
-				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"), rs.getInt("QUANTITY"), rs.getString("CATEGORY"), rs.getString("DATE"));
-				itemsList.add(item);
+				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"),  rs.getInt("Wieght"), rs.getInt("QUANTITY"), rs.getString("DONOR"), rs.getString("CATEGORY"), rs.getString("DATE"));
 			}
 			st.executeUpdate(query1);
 			st.close();
@@ -81,7 +80,9 @@ public class InventoryWindow {
 		model.addColumn("UPC");
 		model.addColumn("PRODUCT NAME");
 		model.addColumn("Price");
+		model.addColumn("WEIGHT");
 		model.addColumn("QUANTITY");
+		model.addColumn("DONOR");
 		model.addColumn("Category");
 		model.addColumn("DATE");
 		Vector<Object> row;
@@ -90,7 +91,9 @@ public class InventoryWindow {
 			row.add(list.get(i).getUPC());
 			row.add(list.get(i).getProductName());
 			row.add(currencyFormatter.format(list.get(i).getPrice()));
+			row.add(list.get(i).getWeight());
 			row.add(list.get(i).getQuantity());
+			row.add(list.get(i).getDonor());
 			row.add(list.get(i).getCategory());
 			row.add(list.get(i).getDate());
 			//row[3] = list.get(i).getPrice();
@@ -291,3 +294,6 @@ inventoryTable.getSelectionModel().addListSelectionListener(new ListSelectionLis
 	    sorter.setRowFilter(rf);
 	}
 }
+
+
+
