@@ -67,12 +67,23 @@ public class WindowMain3 {
 	private JTextField searchTextField;
 
 	NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
-	private JTextField txtUpc;
+	private static JTextField upcTextField;
 	private JTextField textField;
 	private TextPrompt searchTextPrompt;
+	private TextPrompt UPCTextPrompt;
 
 	private static final int GAP = 20;
 	private static final int MARGIN = 25;
+	public static  String getSerial() {
+		String serialNum = upcTextField.getText().replaceAll("\\s+", "");
+
+
+
+
+		return serialNum;
+
+	}
+	
 	public static void MainWindow() {
 		EventQueue.invokeLater(new Runnable() {
 
@@ -86,6 +97,8 @@ public class WindowMain3 {
 			}
 		});
 	}
+	
+	
 
 
 	public static ArrayList<Item> itemList() {
@@ -218,14 +231,14 @@ public class WindowMain3 {
 
 
 
-		txtUpc = new JTextField();
-		txtUpc.setAlignmentX(Component.CENTER_ALIGNMENT);
+		upcTextField = new JTextField();
+		upcTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		eastPanel.add(txtUpc);
-		txtUpc.setText("UPC");
+		eastPanel.add(upcTextField);
+		UPCTextPrompt = new TextPrompt("Scan UPC" , upcTextField);
 
-		txtUpc.setColumns(15);
-		txtUpc.setMaximumSize(txtUpc.getPreferredSize());
+		upcTextField.setColumns(15);
+		upcTextField.setMaximumSize(upcTextField.getPreferredSize());
 		//Component rigidArea = Box.createRigidArea(new Dimension(20, 70));
 		//verticalBox.add(rigidArea);
 
@@ -238,7 +251,7 @@ public class WindowMain3 {
 		JButton scanInButton = new JButton("Scan In");
 		scanInButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ScanWindow.scanWindow();
+				AddWindow.addWindow();
 
 			}
 		});
@@ -695,11 +708,14 @@ public class WindowMain3 {
 	}
 
 
+
 	String RoundTo2Decimals(double val) {
 		//	DecimalFormat df2 = new DecimalFormat("###.##");
 		//	return Double.valueOf(df2.format(val));
 		return String.format("%.2d", val);
 	}
+	
+	
 
 
 }

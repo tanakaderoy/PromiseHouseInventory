@@ -51,7 +51,7 @@ public class AddWindow {
 	private Boolean updateOrInsert = false;
 	private JDateChooser dateChooser;
 	TextPrompt txtSearchPrompt;
-	String serialNum = ScanWindow.getSerial();
+	String serialNum = WindowMain3.getSerial();
 	private JTextField addCategoryTextField;
 	ArrayList<String> categories= new ArrayList<String>();
 
