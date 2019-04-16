@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.team3.PHI.Item;
 
 public class ItemTest {
-	Item item = new Item("12345","Doritos",3.00,9,"chips","2019-03-19");
+	Item item = new Item(0, "12345","Doritos",3.00,9,0, "chips","2019-03-19", null);
 	@Test
 	public void itemNotNull() {
 		assertNotNull(item);

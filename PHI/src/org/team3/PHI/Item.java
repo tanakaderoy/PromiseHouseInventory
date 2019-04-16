@@ -1,14 +1,19 @@
 package org.team3.PHI;
 
 public class Item {
-	private int quantity;
+	private int quantity, id;
+	public int getId() {
+		return id;
+	}
+
 	private String productName, categoryName,upc;
 	private String date;
 	private String donor;
 	private double weight;
 	private double price;
 	
-	public Item(String upc, String productName,double price, double weight, int quantity, String donor, String categoryName, String date ) {
+	public Item(int id, String upc, String productName,double price, double weight, int quantity, String donor, String categoryName, String date ) {
+		this.id = id;
 		this.upc = upc;
 		this.productName = productName;
 		this.quantity = quantity;
@@ -18,6 +23,8 @@ public class Item {
 		this.weight= weight;
 		this.donor = donor;
 	}
+	
+	
 	public String getUPC() {
 		return upc;
 	}

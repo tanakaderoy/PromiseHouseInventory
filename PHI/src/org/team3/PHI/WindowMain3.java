@@ -63,10 +63,10 @@ import com.toedter.calendar.JDateChooser;
  */
 public class WindowMain3 {
 	JFrame frame;  
-	private JTable tableDisplayItem;
+	private static JTable tableDisplayItem;
 	private JTextField searchTextField;
 
-	NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+	static NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
 	private static JTextField upcTextField;
 	private JTextField textField;
 	private TextPrompt searchTextPrompt;
@@ -113,7 +113,7 @@ public class WindowMain3 {
 
 			Item item;
 			while(rs.next()) {
-				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"),  rs.getInt("Weight"), rs.getInt("QUANTITY"), rs.getString("DONOR"), rs.getString("CATEGORY"), rs.getString("DATE"));
+				item = new Item(rs.getInt("Id"),rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"),  rs.getInt("Weight"), rs.getInt("QUANTITY"), rs.getString("DONOR"), rs.getString("CATEGORY"), rs.getString("DATE"));
 
 				itemsList.add(item);
 			}
@@ -558,7 +558,7 @@ public class WindowMain3 {
 		}
 		sorter.setRowFilter(rf);
 	}
-	public void tableUpdated() throws ParseException {
+	public static void tableUpdated() throws ParseException {
 		ArrayList<Item> list = itemList();
 		DefaultTableModel model = (DefaultTableModel)tableDisplayItem.getModel();
 		model.setRowCount(0);
@@ -650,7 +650,7 @@ public class WindowMain3 {
 
 			Item item;
 			while(rs.next()) {
-				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"),  rs.getInt("Weight"), rs.getInt("QUANTITY"), rs.getString("DONOR"), rs.getString("CATEGORY"), rs.getString("DATE"));
+				item = new Item(rs.getInt("Id"),rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"),  rs.getInt("Weight"), rs.getInt("QUANTITY"), rs.getString("DONOR"), rs.getString("CATEGORY"), rs.getString("DATE"));
 
 				itemsList2.add(item);
 			}
@@ -709,7 +709,7 @@ public class WindowMain3 {
 
 
 
-	String RoundTo2Decimals(double val) {
+	static String RoundTo2Decimals(double val) {
 		//	DecimalFormat df2 = new DecimalFormat("###.##");
 		//	return Double.valueOf(df2.format(val));
 		return String.format("%.2d", val);
