@@ -63,10 +63,10 @@ import com.toedter.calendar.JDateChooser;
  */
 public class WindowMain3 {
 	JFrame frame;  
-	private JTable tableDisplayItem;
+	private static JTable tableDisplayItem;
 	private JTextField searchTextField;
 
-	NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+	static NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
 	private static JTextField upcTextField;
 	private JTextField textField;
 	private TextPrompt searchTextPrompt;
@@ -558,7 +558,7 @@ public class WindowMain3 {
 		}
 		sorter.setRowFilter(rf);
 	}
-	public void tableUpdated() throws ParseException {
+	public static void tableUpdated() throws ParseException {
 		ArrayList<Item> list = itemList();
 		DefaultTableModel model = (DefaultTableModel)tableDisplayItem.getModel();
 		model.setRowCount(0);
@@ -572,7 +572,7 @@ public class WindowMain3 {
 			totalPrice.add(list.get(i).getPrice());
 
 		}
-		String sum = RoundTo2Decimals(totalPrice.stream().reduce(0.0, Double::sum));
+		Double sum = RoundTo2Decimals(totalPrice.stream().reduce(0.0, Double::sum));
 		Vector<Object> row;
 		/*
 		 * TODO Change this to something more readable
@@ -683,7 +683,7 @@ public class WindowMain3 {
 			totalPrice.add(list2.get(i).getPrice());
 
 		}
-		String sum = RoundTo2Decimals(totalPrice.stream().reduce(0.0, Double::sum));
+		Double sum = RoundTo2Decimals(totalPrice.stream().reduce(0.0, Double::sum));
 		DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 		DateFormat fmt1 = new SimpleDateFormat("MM-dd-yyyy");
 
@@ -709,10 +709,9 @@ public class WindowMain3 {
 
 
 
-	String RoundTo2Decimals(double val) {
-		//	DecimalFormat df2 = new DecimalFormat("###.##");
-		//	return Double.valueOf(df2.format(val));
-		return String.format("%.2d", val);
+	static double RoundTo2Decimals(double val) {
+        DecimalFormat df2 = new DecimalFormat("###.##");
+    return Double.valueOf(df2.format(val));
 	}
 	
 	

@@ -287,7 +287,7 @@ public class AddWindow {
 					}
 					System.out.println("Product has been added sucessfully!");
 					try {
-						WindowMain2.tableUpdated();
+						WindowMain3.tableUpdated();
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
