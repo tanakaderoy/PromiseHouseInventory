@@ -57,7 +57,7 @@ public class AddWindow {
 	private Boolean updateOrInsert = false;
 	private JDateChooser dateChooser;
 	TextPrompt txtSearchPrompt;
-	String serialNum = WindowMain3.getSerial();
+	String serialNum = WindowMain.getSerial();
 	private JTextField addCategoryTextField;
 	ArrayList<String> categories= new ArrayList<String>();
 	private static final int MARGIN = 25;
@@ -293,7 +293,7 @@ public class AddWindow {
 					}
 					System.out.println("Product has been added sucessfully!");
 					try {
-						WindowMain3.tableUpdated();
+						WindowMain.tableUpdated();
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -490,7 +490,7 @@ public class AddWindow {
 
 			Item item;
 			if(rs.next()) {
-				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"),  rs.getInt("Weight"), rs.getInt("QUANTITY"), rs.getString("DONOR"), rs.getString("CATEGORY"), rs.getString("DATE"));
+				item = new Item(0, rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"),  rs.getInt("Weight"), rs.getInt("QUANTITY"), rs.getString("DONOR"), rs.getString("CATEGORY"), rs.getString("DATE"));
 
 				itemsList2.add(item);
 			}else {
