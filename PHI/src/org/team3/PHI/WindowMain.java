@@ -61,7 +61,7 @@ import com.toedter.calendar.JDateChooser;
  * @author tanaka.mazivanhanga
  *
  */
-public class WindowMain3 {
+public class WindowMain {
 	JFrame frame;  
 	private static JTable tableDisplayItem;
 	private JTextField searchTextField;
@@ -74,6 +74,7 @@ public class WindowMain3 {
 
 	private static final int GAP = 20;
 	private static final int MARGIN = 25;
+	private static JTable historyTable;
 	public static  String getSerial() {
 		String serialNum = upcTextField.getText().replaceAll("\\s+", "");
 
@@ -89,7 +90,7 @@ public class WindowMain3 {
 
 			public void run() {
 				try {
-					WindowMain3 window = new WindowMain3();
+					WindowMain window = new WindowMain();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -106,8 +107,7 @@ public class WindowMain3 {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			Connection con = DriverManager.getConnection("jdbc:sqlite:test.db");
-			String query1 = "SELECT * FROM INVENTORY " + 
-					"ORDER BY `DATE` desc;";
+			String query1 = "SELECT * FROM INVENTORYVIEW ";
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 
@@ -126,6 +126,90 @@ public class WindowMain3 {
 		return itemsList;
 
 	}
+	
+	
+	public static ArrayList<Item> itemListHistory() {
+		ArrayList<Item> itemsList = new ArrayList<>();
+		try {
+			Class.forName("org.sqlite.JDBC");
+			Connection con = DriverManager.getConnection("jdbc:sqlite:test.db");
+			String query1 = "SELECT * FROM INVENTORY ";
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(query1);
+
+			Item item;
+			while(rs.next()) {
+				item = new Item(rs.getInt("Id"),rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"),  rs.getInt("Weight"), rs.getInt("QUANTITY"), rs.getString("DONOR"), rs.getString("CATEGORY"), rs.getString("DATE"));
+
+				itemsList.add(item);
+			}
+			st.executeUpdate(query1);
+			st.close();
+			con.close();
+		} catch(Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+		return itemsList;
+
+	}
+	
+	
+	
+	public void showHistory() throws Exception {
+		ArrayList<Item> list = itemListHistory();
+		DefaultTableModel model = (DefaultTableModel)historyTable.getModel();
+		model.setRowCount(0);
+		historyTable.setRowHeight(30);
+		historyTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+		TableColumnAdjuster tca = new TableColumnAdjuster(historyTable);
+		tca.adjustColumns();
+		historyTable.setAutoCreateRowSorter(true);
+		model.addColumn("ID");
+		model.addColumn("UPC");
+		model.addColumn("PRODUCT NAME");
+		model.addColumn("Price");
+		model.addColumn("Weight");
+		model.addColumn("QUANTITY");
+		model.addColumn("Donor");
+		model.addColumn("Category");
+		model.addColumn("DATE");
+		model.addColumn("Total Price");
+		List<Double> totalPrice = new ArrayList<Double>();
+		for(int i=0; i<list.size();i++) {
+			totalPrice.add(list.get(i).getPrice());
+
+		}
+		double sum = (totalPrice.stream().reduce(0.0, Double::sum));
+		Vector<Object> row;
+		/*
+		 * TODO Change this to something more readable
+		 */
+		DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat fmt1 = new SimpleDateFormat("MM-dd-yyyy");
+
+		for(int i=0; i<list.size();i++) {
+			row = new Vector<Object>();
+			row.add(list.get(i).getId());
+			row.add(list.get(i).getUPC());
+			row.add(list.get(i).getProductName());
+			row.add(currencyFormatter.format(list.get(i).getPrice()));
+			row.add(list.get(i).getWeight());
+			row.add(list.get(i).getQuantity());
+			row.add(list.get(i).getDonor());
+			row.add(list.get(i).getCategory());
+			String date = ""+fmt1.format(fmt.parse(list.get(i).getDate()))+"";
+			row.add(date);
+
+
+			row.add(currencyFormatter.format(sum));
+
+			//row[3] = list.get(i).getPrice();
+			model.addRow(row);
+		}
+
+	}
+
 
 	public void showItem() throws Exception {
 		ArrayList<Item> list = itemList();
@@ -186,9 +270,10 @@ public class WindowMain3 {
 	 * Create the application.
 	 * @throws Exception 
 	 */
-	public WindowMain3() throws Exception {
+	public WindowMain() throws Exception {
 		initialize();
 		showItem();
+		showHistory();
 
 	}
 
@@ -219,7 +304,7 @@ public class WindowMain3 {
 		frame=new JFrame("PHI");
 		frame.setJMenuBar(menuBar);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(WindowMain3.class.getResource("/org/team3/PHI/otterbein.jpg")));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(WindowMain.class.getResource("/org/team3/PHI/otterbein.jpg")));
 		frame.getContentPane().setLayout(new BorderLayout());
 
 
@@ -272,8 +357,14 @@ public class WindowMain3 {
 
 
 		JScrollPane scrollPane = new JScrollPane();
-		centerPanel.setBorder( BorderFactory.createTitledBorder("Inventory"));
+		JScrollPane scrollPane1 = new JScrollPane();
+		scrollPane.setBorder( BorderFactory.createTitledBorder("Inventory"));
 		centerPanel.add(scrollPane);
+		scrollPane1.setBorder(BorderFactory.createTitledBorder("History"));
+		centerPanel.add(scrollPane1);
+		
+		historyTable = new JTable();
+		scrollPane1.setViewportView(historyTable);
 		frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
 
 		tableDisplayItem = new JTable();
@@ -290,14 +381,14 @@ public class WindowMain3 {
 			}
 		});
 
-		tableDisplayItem.addFocusListener(new FocusListener() {
+		historyTable.addFocusListener(new FocusListener() {
 			//DefaultTableModel model = (DefaultTableModel)tableDisplayItem.getModel();
 
 			@Override
 			public void focusLost(FocusEvent e) {
 				// TODO Auto-generated method stub
 				if(!deleteButton.getModel().isPressed()) {
-					tableDisplayItem.getSelectionModel().clearSelection();
+					historyTable.getSelectionModel().clearSelection();
 				}
 
 			}
@@ -423,12 +514,12 @@ public class WindowMain3 {
 		});
 
 
-		tableDisplayItem.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+		historyTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
 				// TODO Auto-generated method stub
-				int row = tableDisplayItem.getSelectedRow();
+				int row = historyTable.getSelectedRow();
 				if(row>=0) {
 					deleteButton.setEnabled(true);
 				}else {
@@ -514,6 +605,7 @@ public class WindowMain3 {
 				// TODO Auto-generated method stub
 				try {
 					tableUpdated();
+					historyTableUpdated();
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -527,6 +619,7 @@ public class WindowMain3 {
 				if(frame.isActive()) {
 					try {
 						tableUpdated();
+						historyTableUpdated();
 					} catch (ParseException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -572,7 +665,7 @@ public class WindowMain3 {
 			totalPrice.add(list.get(i).getPrice());
 
 		}
-		String sum = RoundTo2Decimals(totalPrice.stream().reduce(0.0, Double::sum));
+		double sum = RoundTo2Decimals(totalPrice.stream().reduce(0.0, Double::sum));
 		Vector<Object> row;
 		/*
 		 * TODO Change this to something more readable
@@ -603,9 +696,58 @@ public class WindowMain3 {
 
 
 	}
+	
+	
+	public static void historyTableUpdated() throws ParseException {
+		ArrayList<Item> list = itemListHistory();
+		DefaultTableModel model = (DefaultTableModel)historyTable.getModel();
+		model.setRowCount(0);
+		historyTable.setRowHeight(30);
+		historyTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		TableColumnAdjuster tca = new TableColumnAdjuster(historyTable);
+		tca.adjustColumns();
+
+		List<Double> totalPrice = new ArrayList<Double>();
+		for(int i=0; i<list.size();i++) {
+			totalPrice.add(list.get(i).getPrice());
+
+		}
+		double sum = RoundTo2Decimals(totalPrice.stream().reduce(0.0, Double::sum));
+		Vector<Object> row;
+		/*
+		 * TODO Change this to something more readable
+		 */
+		DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat fmt1 = new SimpleDateFormat("MM-dd-yyyy");
+
+		for(int i=0; i<list.size();i++) {
+			row = new Vector<Object>();
+			row.add(list.get(i).getId());
+			row.add(list.get(i).getUPC());
+			row.add(list.get(i).getProductName());
+			row.add(currencyFormatter.format(list.get(i).getPrice()));
+			row.add(list.get(i).getWeight());
+			row.add(list.get(i).getQuantity());
+			row.add(list.get(i).getDonor());
+			row.add(list.get(i).getCategory());
+			String date = ""+fmt1.format(fmt.parse(list.get(i).getDate()))+"";
+			row.add(date);
+
+
+			row.add(currencyFormatter.format(sum));
+
+			//row[3] = list.get(i).getPrice();
+			model.addRow(row);
+		}
+		model.fireTableDataChanged();
+
+
+
+	}
+	
 	public void deleteSelectedRow() {
-		int row = tableDisplayItem.getSelectedRow();
-		DefaultTableModel model= (DefaultTableModel)tableDisplayItem.getModel();
+		int row = historyTable.getSelectedRow();
+		DefaultTableModel model= (DefaultTableModel)historyTable.getModel();
 
 		String selected = model.getValueAt(row, 0).toString();
 		System.out.println(selected);
@@ -617,13 +759,14 @@ public class WindowMain3 {
 			try {
 				Class.forName("org.sqlite.JDBC");
 				Connection conn = (Connection) DriverManager.getConnection("jdbc:sqlite:test.db");
-				PreparedStatement ps = conn.prepareStatement("delete from INVENTORY where UPC='"+selected+"' ");
+				PreparedStatement ps = conn.prepareStatement("Delete from INVENTORY WHERE Id='"+selected+"' ");
+				System.out.println("Delete from INVENTORY WHERE Id='"+selected+"' ");
 				ps.executeUpdate();
 				ps.close();
 				conn.close();
 			}
 			catch (Exception w) {
-				JOptionPane.showMessageDialog(tableDisplayItem, "Connection Error!");
+				JOptionPane.showMessageDialog(historyTable, "Connection Error!");
 			}          
 		}
 
@@ -636,11 +779,11 @@ public class WindowMain3 {
 			Connection con = DriverManager.getConnection("jdbc:sqlite:test.db");
 			String query1;
 			if(startDate.isEmpty() && endDate.isEmpty() ) {
-				query1 = "SELECT * FROM 'INVENTORY' ";
+				query1 = "SELECT * FROM 'INVENTORYVIEW' ";
 
 			}else {
 
-				query1 = "SELECT * FROM 'INVENTORY' " +
+				query1 = "SELECT * FROM 'INVENTORYVIEW' " +
 						"where `DATE` between  '"+startDate+"' and '"+endDate+"'"+
 						"ORDER BY `DATE` desc;";
 			}
@@ -683,7 +826,7 @@ public class WindowMain3 {
 			totalPrice.add(list2.get(i).getPrice());
 
 		}
-		String sum = RoundTo2Decimals(totalPrice.stream().reduce(0.0, Double::sum));
+		double sum = RoundTo2Decimals(totalPrice.stream().reduce(0.0, Double::sum));
 		DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
 		DateFormat fmt1 = new SimpleDateFormat("MM-dd-yyyy");
 
@@ -709,10 +852,10 @@ public class WindowMain3 {
 
 
 
-	static String RoundTo2Decimals(double val) {
-		//	DecimalFormat df2 = new DecimalFormat("###.##");
-		//	return Double.valueOf(df2.format(val));
-		return String.format("%.2d", val);
+	static double RoundTo2Decimals(double val) {
+			DecimalFormat df2 = new DecimalFormat("###.##");
+			return Double.valueOf(df2.format(val));
+		
 	}
 	
 	
