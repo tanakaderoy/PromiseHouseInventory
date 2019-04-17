@@ -1,5 +1,8 @@
 package org.team3.PHI;
+import java.awt.BorderLayout;
+import java.awt.ComponentOrientation;
 import java.awt.EventQueue;
+import java.awt.GridLayout;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -11,6 +14,8 @@ import javax.swing.JTextField;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -28,6 +33,7 @@ import java.net.URL;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComboBox;
@@ -54,7 +60,7 @@ public class AddWindow {
 	String serialNum = WindowMain3.getSerial();
 	private JTextField addCategoryTextField;
 	ArrayList<String> categories= new ArrayList<String>();
-
+	private static final int MARGIN = 25;
 	/**
 	 * Launch the application.
 	 */
@@ -94,7 +100,7 @@ public class AddWindow {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 961, 622);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		//frame.getContentPane().setLayout(null);
 
 
 
@@ -102,35 +108,35 @@ public class AddWindow {
 
 
 		upcText = new JTextField();
-		upcText.setBounds(428, 68, 86, 20);
+		//upcText.setBounds(428, 68, 86, 20);
 
-		frame.getContentPane().add(upcText);
+		//frame.getContentPane().add(upcText);
 		upcText.setColumns(10);
 
 		productText = new JTextField();
-		productText.setBounds(416, 153, 144, 20);
-		frame.getContentPane().add(productText);
+		//productText.setBounds(416, 153, 144, 20);
+		//frame.getContentPane().add(productText);
 		productText.setColumns(10);
 
 		quantityText = new JTextField();
-		quantityText.setBounds(406, 239, 163, 22);
-		frame.getContentPane().add(quantityText);
+		//quantityText.setBounds(406, 239, 163, 22);
+		//frame.getContentPane().add(quantityText);
 		quantityText.setColumns(10);
 
 		txtpnUpcNumber = new JLabel();
 		txtpnUpcNumber.setText("UPC NUMBER");
-		txtpnUpcNumber.setBounds(416, 28, 188, 31);
-		frame.getContentPane().add(txtpnUpcNumber);
+		//txtpnUpcNumber.setBounds(416, 28, 188, 31);
+		//frame.getContentPane().add(txtpnUpcNumber);
 
 		txtpnProductName = new JLabel();
 		txtpnProductName.setText("PRODUCT NAME");
-		txtpnProductName.setBounds(406, 104, 218, 38);
-		frame.getContentPane().add(txtpnProductName);
+		//txtpnProductName.setBounds(406, 104, 218, 38);
+		//frame.getContentPane().add(txtpnProductName);
 
 		txtpnQuantity = new JLabel();
 		txtpnQuantity.setText("QUANTITY");
-		txtpnQuantity.setBounds(406, 188, 154, 39);
-		frame.getContentPane().add(txtpnQuantity);
+		//txtpnQuantity.setBounds(406, 188, 154, 39);
+		//frame.getContentPane().add(txtpnQuantity);
 		File newFile = new File("Categories.txt");
 
 		if(newFile.length() == 0) {
@@ -150,51 +156,51 @@ public class AddWindow {
 		}
 
 		txtpnCategory = new JLabel("CATEGORY");
-		txtpnCategory.setBounds(406, 277, 153, 31);
-		frame.getContentPane().add(txtpnCategory);
+		//txtpnCategory.setBounds(406, 277, 153, 31);
+		//frame.getContentPane().add(txtpnCategory);
 
 		dateChooser = new JDateChooser();
-		dateChooser.setBounds(406, 399, 181, 39);
+		//dateChooser.setBounds(406, 399, 181, 39);
 		dateChooser.setToolTipText("Choose Date");
 		
-		frame.getContentPane().add(dateChooser);
+		//frame.getContentPane().add(dateChooser);
 
 		String[] array = categories.toArray(new String[categories.size()]);
 
 		comboBox = new JComboBox<String>(array);
-		comboBox.setBounds(406, 314, 163, 39);
+		//comboBox.setBounds(406, 314, 163, 39);
 
-		frame.getContentPane().add(comboBox);
+		//frame.getContentPane().add(comboBox);
 
 		JLabel lblDate = new JLabel("DATE");
 		
-		lblDate.setBounds(406, 356, 115, 33);
-		frame.getContentPane().add(lblDate);
+		//lblDate.setBounds(406, 356, 115, 33);
+		//frame.getContentPane().add(lblDate);
 
 		
 		JLabel lblDonor = new JLabel("Donor");
-		lblDonor.setBounds(196, 188, 115,33);
-		frame.getContentPane().add(lblDonor);
+		//lblDonor.setBounds(196, 188, 115,33);
+		//frame.getContentPane().add(lblDonor);
 		donorTextField = new JTextField();
-		donorTextField.setBounds(141, 230, 150,30);
-		frame.getContentPane().add(donorTextField);
+		//donorTextField.setBounds(141, 230, 150,30);
+		//frame.getContentPane().add(donorTextField);
 		
 		
 		JLabel lblWeight = new JLabel("Weight");
-		lblWeight.setBounds(196,277, 115,33);
-		frame.getContentPane().add(lblWeight);
+		//lblWeight.setBounds(196,277, 115,33);
+		//frame.getContentPane().add(lblWeight);
 		weightTextField = new JTextField();
-		weightTextField.setBounds(141,314, 100, 30);
-		frame.getContentPane().add(weightTextField);
+		//weightTextField.setBounds(141,314, 100, 30);
+		//frame.getContentPane().add(weightTextField);
 		
 
 		JLabel lblPrice = new JLabel("Price");
-		lblPrice.setBounds(196, 107, 115, 33);
-		frame.getContentPane().add(lblPrice);
+		//lblPrice.setBounds(196, 107, 115, 33);
+		//frame.getContentPane().add(lblPrice);
 
 		priceTextField = new JTextField();
-		priceTextField.setBounds(141, 144, 236, 39);
-		frame.getContentPane().add(priceTextField);
+		//priceTextField.setBounds(141, 144, 236, 39);
+		//frame.getContentPane().add(priceTextField);
 		priceTextField.setColumns(10);
 
 
@@ -205,8 +211,8 @@ public class AddWindow {
 
 			}
 		});
-		btnCancel.setBounds(262, 470, 188, 20);
-		frame.getContentPane().add(btnCancel);
+		//btnCancel.setBounds(262, 470, 188, 20);
+		//frame.getContentPane().add(btnCancel);
 
 		btnAdd = new JButton("ADD");
 		btnAdd.addActionListener(new ActionListener() {
@@ -301,12 +307,12 @@ public class AddWindow {
 
 
 		});
-		btnAdd.setBounds(575, 469, 163, 20);
-		frame.getContentPane().add(btnAdd);
+		//btnAdd.setBounds(575, 469, 163, 20);
+		//frame.getContentPane().add(btnAdd);
 
 		addCategoryTextField = new JTextField();
-		addCategoryTextField.setBounds(579, 323, 121, 20);
-		frame.getContentPane().add(addCategoryTextField);
+		//addCategoryTextField.setBounds(579, 323, 121, 20);
+		//frame.getContentPane().add(addCategoryTextField);
 		addCategoryTextField.setColumns(10);
 
 		txtSearchPrompt = new TextPrompt("Add Extra Categories", addCategoryTextField);
@@ -327,12 +333,12 @@ public class AddWindow {
 				addCategoryTextField.setText(null);
 			}
 		});
-		btnAddCategory.setBounds(724, 322, 105, 23);
-		frame.getContentPane().add(btnAddCategory);
+		//btnAddCategory.setBounds(724, 322, 105, 23);
+		//frame.getContentPane().add(btnAddCategory);
 
 		JButton btnBack = new JButton("Back");
-		btnBack.setBounds(26, 23, 171, 41);
-		frame.getContentPane().add(btnBack);
+		//btnBack.setBounds(26, 23, 171, 41);
+		//frame.getContentPane().add(btnBack);
 		btnBack.addActionListener(new ActionListener() {
 
 			@Override
@@ -346,9 +352,39 @@ public class AddWindow {
 
 
 
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(8,2,15,15));
+		panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		panel.add(txtpnUpcNumber);
+		panel.add(txtpnProductName);
+		panel.add(upcText);
+		panel.add(productText);
+		panel.add(lblPrice);
+		panel.add(txtpnQuantity);
+		panel.add(priceTextField);
+		panel.add(quantityText);
+		panel.add(lblDonor);
+		panel.add(txtpnCategory);
+		panel.add(donorTextField);
+		panel.add(comboBox);
+		panel.add(lblWeight);
+		panel.add(lblDate);
+		panel.add(weightTextField);
+		panel.add(dateChooser);
+		frame.getContentPane().add(panel, BorderLayout.CENTER);
 
-
-
+		JPanel southPanel = new JPanel();
+		southPanel.setLayout(new GridLayout(1,2,30,30));;
+		southPanel.setBorder(BorderFactory.createEmptyBorder(MARGIN, MARGIN, MARGIN, MARGIN));
+		frame.getContentPane().add(southPanel, BorderLayout.SOUTH);
+		southPanel.add(btnAdd);
+		southPanel.add(btnCancel);
+		JPanel eastPanel = new JPanel();
+		eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.PAGE_AXIS));
+		eastPanel.setBorder(BorderFactory.createEmptyBorder(MARGIN, MARGIN, MARGIN, MARGIN));
+		frame.getContentPane().add(eastPanel, BorderLayout.EAST);
+		eastPanel.add(addCategoryTextField);
+		eastPanel.add(btnAddCategory);
 
 	}
 	public void request() throws IOException, JSONException {
