@@ -333,6 +333,7 @@ public class AddWindow {
 
 		upcText = new JTextField();
 		upcText.setBounds(428, 68, 86, 20);
+		upcText.setText(serialNum);
 
 		frame.getContentPane().add(upcText);
 		upcText.setColumns(10);
