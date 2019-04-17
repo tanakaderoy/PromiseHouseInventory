@@ -88,7 +88,7 @@ public class AddWindow {
 			serialNum = "0";
 
 		}
-		
+
 		autoFill();
 
 	}
@@ -163,7 +163,7 @@ public class AddWindow {
 		dateChooser = new JDateChooser();
 		//dateChooser.setBounds(406, 399, 181, 39);
 		dateChooser.setToolTipText("Choose Date");
-		
+
 		//frame.getContentPane().add(dateChooser);
 
 		String[] array = categories.toArray(new String[categories.size()]);
@@ -174,26 +174,26 @@ public class AddWindow {
 		//frame.getContentPane().add(comboBox);
 
 		JLabel lblDate = new JLabel("DATE");
-		
+
 		//lblDate.setBounds(406, 356, 115, 33);
 		//frame.getContentPane().add(lblDate);
 
-		
+
 		JLabel lblDonor = new JLabel("Donor");
 		//lblDonor.setBounds(196, 188, 115,33);
 		//frame.getContentPane().add(lblDonor);
 		donorTextField = new JTextField();
 		//donorTextField.setBounds(141, 230, 150,30);
 		//frame.getContentPane().add(donorTextField);
-		
-		
+
+
 		JLabel lblWeight = new JLabel("Weight");
 		//lblWeight.setBounds(196,277, 115,33);
 		//frame.getContentPane().add(lblWeight);
 		weightTextField = new JTextField();
 		//weightTextField.setBounds(141,314, 100, 30);
 		//frame.getContentPane().add(weightTextField);
-		
+
 
 		JLabel lblPrice = new JLabel("Price");
 		//lblPrice.setBounds(196, 107, 115, 33);
@@ -246,17 +246,17 @@ public class AddWindow {
 					JOptionPane.showMessageDialog(frame, "Error: Price must be a non negative decimal with no currency symbol");
 					success = false;
 				}
-				
+
 				double weight = 0;
 				try {
 					weight = Double.parseDouble(weightTextField.getText().trim());
 					if(weight<0) {
 						throw new NumberFormatException();
 					} 
-						
-					}catch(NumberFormatException ee) {
-						JOptionPane.showMessageDialog(frame, "Error: Quantity must be a positive integer for weight");
-						success = false;
+
+				}catch(NumberFormatException ee) {
+					JOptionPane.showMessageDialog(frame, "Error: Quantity must be a positive integer for weight");
+					success = false;
 				}
 
 				if( success ) {
@@ -416,18 +416,20 @@ public class AddWindow {
 			System.out.println(response.toString());
 			//Read JSON response and print
 			JSONObject myResponse = new JSONObject(response.toString());
-			JSONObject items = myResponse.getJSONArray("items").getJSONObject(0);
-			JSONObject merchant = items.getJSONArray("offers").getJSONObject(0);
-			System.out.println("result after Reading JSON Response");
-			System.out.println(myResponse.toString());
-			System.out.println("statusCode- "+myResponse.getString("code"));
-			System.out.println("upc: "+items.getString("upc"));
-			System.out.println("title: "+items.getString("title"));
-			productText.setText(items.getString("title"));
-			priceTextField.setText(""+merchant.getDouble("price"));
+			if(myResponse.getInt("total") > 0) {
+				JSONObject items = myResponse.getJSONArray("items").getJSONObject(0);
+				JSONObject merchant = items.getJSONArray("offers").getJSONObject(0);
+				System.out.println("result after Reading JSON Response");
+				System.out.println(myResponse.toString());
+				System.out.println("statusCode- "+myResponse.getString("code"));
+				System.out.println("upc: "+items.getString("upc"));
+				System.out.println("title: "+items.getString("title"));
+				productText.setText(items.getString("title"));
+				priceTextField.setText(""+merchant.getDouble("price"));
+			}
 
 		}
-		
+
 	}
 
 	public void addToCategoriesList(String cat) throws IOException{
@@ -515,13 +517,13 @@ public class AddWindow {
 				updateOrInsert = true;
 			}else if(!updateOrInsert) {
 				try {
-					
+
 					request();
 				} catch (IOException | JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				}
+			}
 			{
 				upcText.setText(serialNum);
 				toggleUpdateOrInsert();
