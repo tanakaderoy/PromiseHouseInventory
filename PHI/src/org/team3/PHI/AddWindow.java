@@ -1,4 +1,5 @@
 package org.team3.PHI;
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.sql.*;
 import java.text.DateFormat;
@@ -11,6 +12,8 @@ import javax.swing.JTextField;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -31,6 +34,7 @@ import javax.swing.JOptionPane;
 
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComboBox;
+import javax.swing.JPanel;
 
 public class AddWindow {
 
@@ -38,12 +42,12 @@ public class AddWindow {
 	private JTextField upcText;
 	public static JTextField productText;
 	private JTextField quantityText;
-	private JLabel txtpnUpcNumber;
-	private JLabel txtpnProductName;
-	private JLabel txtpnQuantity;
-	private JLabel txtpnCategory;
-	private JButton btnCancel;
-	private JButton btnAdd;
+	private JLabel upcNumberLabel;
+	private JLabel productNameLabel;
+	private JLabel quantityLabel;
+	private JLabel categoryLabel;
+	private JButton cancelButton;
+	private JButton addButton;
 	private JTextField donorTextField;
 	private JTextField weightTextField;
 	private JTextField priceTextField;
@@ -51,7 +55,7 @@ public class AddWindow {
 	private Boolean updateOrInsert = false;
 	private JDateChooser dateChooser;
 	TextPrompt txtSearchPrompt;
-	String serialNum = WindowMain3.getSerial();
+	String serialNum = WindowMain.getSerial();
 	private JTextField addCategoryTextField;
 	ArrayList<String> categories= new ArrayList<String>();
 
@@ -92,51 +96,45 @@ public class AddWindow {
 	private void initialize() {
 
 		frame = new JFrame();
-		frame.setBounds(100, 100, 961, 622);
+		
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-
-
-
-
-
-
+		/*
+		frame.getContentPane().setLayout(new BorderLayout());
+		
+		JPanel centerPanel = new JPanel();
+		frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
 		upcText = new JTextField();
-		upcText.setBounds(428, 68, 86, 20);
-
-		frame.getContentPane().add(upcText);
+		
+		centerPanel.add(upcText);
 		upcText.setColumns(10);
-
+		
 		productText = new JTextField();
-		productText.setBounds(416, 153, 144, 20);
-		frame.getContentPane().add(productText);
+		centerPanel.add(productText);
 		productText.setColumns(10);
 
 		quantityText = new JTextField();
-		quantityText.setBounds(406, 239, 163, 22);
-		frame.getContentPane().add(quantityText);
+		centerPanel.add(quantityText);
 		quantityText.setColumns(10);
 
-		txtpnUpcNumber = new JLabel();
-		txtpnUpcNumber.setText("UPC NUMBER");
-		txtpnUpcNumber.setBounds(416, 28, 188, 31);
-		frame.getContentPane().add(txtpnUpcNumber);
+		upcNumberLabel = new JLabel();
+		upcNumberLabel.setText("UPC NUMBER");
+		centerPanel.add(upcNumberLabel);
 
-		txtpnProductName = new JLabel();
-		txtpnProductName.setText("PRODUCT NAME");
-		txtpnProductName.setBounds(406, 104, 218, 38);
-		frame.getContentPane().add(txtpnProductName);
+		productNameLabel = new JLabel();
+		productNameLabel.setText("PRODUCT NAME");
+		centerPanel.add(productNameLabel);
 
-		txtpnQuantity = new JLabel();
-		txtpnQuantity.setText("QUANTITY");
-		txtpnQuantity.setBounds(406, 188, 154, 39);
-		frame.getContentPane().add(txtpnQuantity);
-		File newFile = new File("Categories.txt");
+		quantityLabel = new JLabel();
+		quantityLabel.setText("QUANTITY");
+		centerPanel.add(quantityLabel);
+		
+		File categoryFile = new File("Categories.txt");
 
-		if(newFile.length() == 0) {
+		if(categoryFile.length() == 0) {
 			try {
 
-				newFile.createNewFile();
+				categoryFile.createNewFile();
 
 				addToCategoriesList("Supplies");
 				addToCategoriesList("Food");
@@ -149,67 +147,59 @@ public class AddWindow {
 			addFileLineToCat();
 		}
 
-		txtpnCategory = new JLabel("CATEGORY");
-		txtpnCategory.setBounds(406, 277, 153, 31);
-		frame.getContentPane().add(txtpnCategory);
+		categoryLabel = new JLabel("CATEGORY");
+		centerPanel.add(categoryLabel);
 
 		dateChooser = new JDateChooser();
-		dateChooser.setBounds(406, 399, 181, 39);
+		
 		dateChooser.setToolTipText("Choose Date");
 		
-		frame.getContentPane().add(dateChooser);
+		centerPanel.add(dateChooser);
 
 		String[] array = categories.toArray(new String[categories.size()]);
-
-		comboBox = new JComboBox<String>(array);
-		comboBox.setBounds(406, 314, 163, 39);
-
-		frame.getContentPane().add(comboBox);
-
-		JLabel lblDate = new JLabel("DATE");
-		
-		lblDate.setBounds(406, 356, 115, 33);
-		frame.getContentPane().add(lblDate);
+		DefaultComboBoxModel<String> comboModel = new DefaultComboBoxModel<String>(array);
 
 		
-		JLabel lblDonor = new JLabel("Donor");
-		lblDonor.setBounds(196, 188, 115,33);
-		frame.getContentPane().add(lblDonor);
+
+		comboBox = new JComboBox<String>(comboModel);
+		centerPanel.add(comboBox);
+
+		JLabel dateLabel = new JLabel("DATE");
+		
+		centerPanel.add(dateLabel);
+
+		
+		JLabel donorLabel = new JLabel("Donor");
+		centerPanel.add(donorLabel);
 		donorTextField = new JTextField();
-		donorTextField.setBounds(141, 230, 150,30);
-		frame.getContentPane().add(donorTextField);
+		centerPanel.add(donorTextField);
 		
 		
-		JLabel lblWeight = new JLabel("Weight");
-		lblWeight.setBounds(196,277, 115,33);
-		frame.getContentPane().add(lblWeight);
+		JLabel weightLabel = new JLabel("Weight");
+		centerPanel.add(weightLabel);
 		weightTextField = new JTextField();
-		weightTextField.setBounds(141,314, 100, 30);
-		frame.getContentPane().add(weightTextField);
+		centerPanel.add(weightTextField);
 		
 
-		JLabel lblPrice = new JLabel("Price");
-		lblPrice.setBounds(196, 107, 115, 33);
-		frame.getContentPane().add(lblPrice);
+		JLabel priceLabel = new JLabel("Price");
+		centerPanel.add(priceLabel);
 
 		priceTextField = new JTextField();
-		priceTextField.setBounds(141, 144, 236, 39);
-		frame.getContentPane().add(priceTextField);
+		centerPanel.add(priceTextField);
 		priceTextField.setColumns(10);
 
 
-		btnCancel = new JButton("CANCEL");
-		btnCancel.addActionListener(new ActionListener() {
+		cancelButton = new JButton("CANCEL");
+		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 
 			}
 		});
-		btnCancel.setBounds(262, 470, 188, 20);
-		frame.getContentPane().add(btnCancel);
+		centerPanel.add(cancelButton);
 
-		btnAdd = new JButton("ADD");
-		btnAdd.addActionListener(new ActionListener() {
+		addButton = new JButton("ADD");
+		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection con = null;
 				Statement stmt = null;
@@ -301,8 +291,247 @@ public class AddWindow {
 
 
 		});
-		btnAdd.setBounds(575, 469, 163, 20);
-		frame.getContentPane().add(btnAdd);
+		
+		JPanel southPanel = new JPanel();
+		frame.getContentPane().add(southPanel, BorderLayout.SOUTH);
+		
+		southPanel.add(addButton);
+
+		addCategoryTextField = new JTextField();
+		centerPanel.add(addCategoryTextField);
+		addCategoryTextField.setColumns(10);
+
+		txtSearchPrompt = new TextPrompt("Add Extra Categories", addCategoryTextField);
+
+		JButton addCategoryButton = new JButton("Add Category");
+		addCategoryButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				if(!addCategoryTextField.getText().isEmpty()) {
+					comboBox.addItem(addCategoryTextField.getText());
+				}
+				try {
+					addToCategoriesList(addCategoryTextField.getText());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				addCategoryTextField.setText(null);
+			}
+		});
+		centerPanel.add(addCategoryButton);
+		
+
+		
+		//frame.pack();
+		frame.setMinimumSize(frame.getPreferredSize());*/
+
+
+
+
+
+
+		upcText = new JTextField();
+		upcText.setBounds(428, 68, 86, 20);
+
+		frame.getContentPane().add(upcText);
+		upcText.setColumns(10);
+
+		productText = new JTextField();
+		productText.setBounds(416, 153, 144, 20);
+		frame.getContentPane().add(productText);
+		productText.setColumns(10);
+
+		quantityText = new JTextField();
+		quantityText.setBounds(406, 239, 163, 22);
+		frame.getContentPane().add(quantityText);
+		quantityText.setColumns(10);
+
+		upcNumberLabel = new JLabel();
+		upcNumberLabel.setText("UPC NUMBER");
+		upcNumberLabel.setBounds(416, 28, 188, 31);
+		frame.getContentPane().add(upcNumberLabel);
+
+		productNameLabel = new JLabel();
+		productNameLabel.setText("PRODUCT NAME");
+		productNameLabel.setBounds(406, 104, 218, 38);
+		frame.getContentPane().add(productNameLabel);
+
+		categoryLabel = new JLabel();
+		categoryLabel.setText("QUANTITY");
+		categoryLabel.setBounds(406, 188, 154, 39);
+		frame.getContentPane().add(categoryLabel);
+		File newFile = new File("Categories.txt");
+
+		if(newFile.length() == 0) {
+			try {
+
+				newFile.createNewFile();
+
+				addToCategoriesList("Supplies");
+				addToCategoriesList("Food");
+				addToCategoriesList("Toiletries");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}else {
+			addFileLineToCat();
+		}
+
+		categoryLabel = new JLabel("CATEGORY");
+		categoryLabel.setBounds(406, 277, 153, 31);
+		frame.getContentPane().add(categoryLabel);
+
+		dateChooser = new JDateChooser();
+		dateChooser.setBounds(406, 399, 181, 39);
+		dateChooser.setToolTipText("Choose Date");
+		
+		frame.getContentPane().add(dateChooser);
+
+		String[] array = categories.toArray(new String[categories.size()]);
+
+		comboBox = new JComboBox<String>(array);
+		comboBox.setBounds(406, 314, 163, 39);
+
+		frame.getContentPane().add(comboBox);
+
+		JLabel lblDate = new JLabel("DATE");
+		
+		lblDate.setBounds(406, 356, 115, 33);
+		frame.getContentPane().add(lblDate);
+
+		
+		JLabel lblDonor = new JLabel("Donor");
+		lblDonor.setBounds(196, 188, 115,33);
+		frame.getContentPane().add(lblDonor);
+		donorTextField = new JTextField();
+		donorTextField.setBounds(141, 230, 150,30);
+		frame.getContentPane().add(donorTextField);
+		
+		
+		JLabel lblWeight = new JLabel("Weight");
+		lblWeight.setBounds(196,277, 115,33);
+		frame.getContentPane().add(lblWeight);
+		weightTextField = new JTextField();
+		weightTextField.setBounds(141,314, 100, 30);
+		frame.getContentPane().add(weightTextField);
+		
+
+		JLabel lblPrice = new JLabel("Price");
+		lblPrice.setBounds(196, 107, 115, 33);
+		frame.getContentPane().add(lblPrice);
+
+		priceTextField = new JTextField();
+		priceTextField.setBounds(141, 144, 236, 39);
+		frame.getContentPane().add(priceTextField);
+		priceTextField.setColumns(10);
+
+
+		cancelButton = new JButton("CANCEL");
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+
+			}
+		});
+		cancelButton.setBounds(262, 470, 188, 20);
+		frame.getContentPane().add(cancelButton);
+
+		addButton = new JButton("ADD");
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Connection con = null;
+				Statement stmt = null;
+
+
+				int quantity = 0;
+				boolean success = true;
+				try {
+					quantity = Integer.parseInt(quantityText.getText().trim());
+					if( quantity < 0)
+						throw new NumberFormatException();
+				}
+				catch(NumberFormatException ee) {
+
+					JOptionPane.showMessageDialog(frame, "Error: Quantity must be a positive integer quantity");
+					success = false;
+				}
+
+				double price = 0;
+				try {
+					price = Double.parseDouble(priceTextField.getText().trim());
+					if(price < 0) {
+						throw new NumberFormatException();
+					}
+
+				}catch(NumberFormatException ee){
+					JOptionPane.showMessageDialog(frame, "Error: Price must be a non negative decimal with no currency symbol");
+					success = false;
+				}
+				
+				double weight = 0;
+				try {
+					weight = Double.parseDouble(weightTextField.getText().trim());
+					if(weight<0) {
+						throw new NumberFormatException();
+					} 
+						
+					}catch(NumberFormatException ee) {
+						JOptionPane.showMessageDialog(frame, "Error: Quantity must be a positive integer for weight");
+						success = false;
+				}
+
+				if( success ) {
+					try {
+
+
+						DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+						Class.forName("org.sqlite.JDBC");
+						con = DriverManager.getConnection("jdbc:sqlite:test.db");
+						con.setAutoCommit(false);
+						System.out.println("Opened Database Sucessfuly");
+
+						stmt = con.createStatement();
+						String sql;
+
+						
+							sql = "INSERT INTO INVENTORY (UPC, PRODUCT_NAME,PRICE, WEIGHT, QUANTITY, DONOR, CATEGORY, DATE)" +
+									"VALUES ("+upcText.getText()+" , ' "+productText.getText()+" ', ' "+price+" ',' "+weight+"  ', ' "+
+									quantity+"',' "+donorTextField.getText()+"',' "+comboBox.getSelectedItem().toString()+"',"+"date((julianday("+"'"+fmt.format(dateChooser.getDate())+"'"+")))"+");";
+						
+						System.out.println(sql);
+						stmt.executeUpdate(sql);
+						stmt.close();
+						con.commit();
+						con.close();
+					}
+					catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					System.out.println("Product has been added sucessfully!");
+					try {
+						WindowMain.tableUpdated();
+						WindowMain.historyTableUpdated();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					frame.setVisible(false);
+				}
+
+			}
+
+
+
+
+		});
+		addButton.setBounds(575, 469, 163, 20);
+		frame.getContentPane().add(addButton);
 
 		addCategoryTextField = new JTextField();
 		addCategoryTextField.setBounds(579, 323, 121, 20);
@@ -454,7 +683,7 @@ public class AddWindow {
 
 			Item item;
 			if(rs.next()) {
-				item = new Item(rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"),  rs.getInt("Weight"), rs.getInt("QUANTITY"), rs.getString("DONOR"), rs.getString("CATEGORY"), rs.getString("DATE"));
+				item = new Item(rs.getInt("Id"),rs.getString("UPC"), rs.getString("PRODUCT_NAME"),rs.getDouble("PRICE"),  rs.getInt("Weight"), rs.getInt("QUANTITY"), rs.getString("DONOR"), rs.getString("CATEGORY"), rs.getString("DATE"));
 
 				itemsList2.add(item);
 			}else {
@@ -484,7 +713,6 @@ public class AddWindow {
 				}
 				}
 			{
-				upcText.setText(serialNum);
 				toggleUpdateOrInsert();
 			}
 			st.executeUpdate(query1);
@@ -496,8 +724,11 @@ public class AddWindow {
 			JOptionPane.showMessageDialog(null, e);
 
 		} 
-
+frame.getContentPane().setMinimumSize(frame.getContentPane().getPreferredSize());
+frame.setMinimumSize(frame.getPreferredSize());
+frame.pack();
 	}
+	
 }
 
 
