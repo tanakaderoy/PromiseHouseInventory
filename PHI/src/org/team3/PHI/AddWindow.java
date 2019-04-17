@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -383,9 +384,11 @@ public class AddWindow {
 		eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.PAGE_AXIS));
 		eastPanel.setBorder(BorderFactory.createEmptyBorder(MARGIN, MARGIN, MARGIN, MARGIN));
 		frame.getContentPane().add(eastPanel, BorderLayout.EAST);
+		eastPanel.add(Box.createVerticalStrut(310));
 		eastPanel.add(addCategoryTextField);
+		eastPanel.add(Box.createVerticalStrut(25));
 		eastPanel.add(btnAddCategory);
-
+		eastPanel.add(Box.createVerticalStrut(65));
 	}
 	public void request() throws IOException, JSONException {
 		String upcNum = serialNum;
