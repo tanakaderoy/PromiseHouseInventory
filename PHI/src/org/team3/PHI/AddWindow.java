@@ -272,13 +272,11 @@ public class AddWindow {
 						stmt = con.createStatement();
 						String sql;
 
-						if(updateOrInsert) {
-							sql = "INSERT INTO INVENTORY (UPC, PRODUCT_NAME,PRICE, WEIGHT, QUANTITY, DONOR, CATEGORY, DATE)" +
-									"VALUES ("+upcText.getText()+" , ' "+productText.getText()+" ', ' "+price+" ',' "+weight+"  ', ' "+
-									quantity+"',' "+donorTextField.getText()+"',' "+comboBox.getSelectedItem().toString()+"',"+"date((julianday("+"'"+fmt.format(dateChooser.getDate())+"'"+")))"+");";
-						}else {
-							sql = "UPDATE INVENTORY SET PRODUCT_NAME = '"+productText.getText()+"', PRICE = "+price+", QUANTITY = "+quantity +" WHERE UPC = "+upcText.getText()+"; ";					
-						}
+
+						sql = "INSERT INTO INVENTORY (UPC, PRODUCT_NAME,PRICE, WEIGHT, QUANTITY, DONOR, CATEGORY, DATE)" +
+								"VALUES ("+upcText.getText()+" , ' "+productText.getText()+" ', ' "+price+" ',' "+weight+"  ', ' "+
+								quantity+"',' "+donorTextField.getText()+"',' "+comboBox.getSelectedItem().toString()+"',"+"date((julianday("+"'"+fmt.format(dateChooser.getDate())+"'"+")))"+");";
+
 						System.out.println(sql);
 						stmt.executeUpdate(sql);
 						stmt.close();
@@ -383,7 +381,7 @@ public class AddWindow {
 		frame.getContentPane().add(southPanel, BorderLayout.SOUTH);
 		southPanel.add(btnCancel);
 		southPanel.add(btnAdd);
-		
+
 		// east panel
 		JPanel eastPanel = new JPanel();
 		eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.PAGE_AXIS));
