@@ -352,7 +352,9 @@ public class AddWindow {
 
 
 
-
+		/*
+		 * center panel
+		 */
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(8,2,15,15));
 		panel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -373,13 +375,15 @@ public class AddWindow {
 		panel.add(weightTextField);
 		panel.add(dateChooser);
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
-
+		//south Panel
 		JPanel southPanel = new JPanel();
 		southPanel.setLayout(new GridLayout(1,2,30,30));;
 		southPanel.setBorder(BorderFactory.createEmptyBorder(MARGIN, MARGIN, MARGIN, MARGIN));
 		frame.getContentPane().add(southPanel, BorderLayout.SOUTH);
-		southPanel.add(btnAdd);
 		southPanel.add(btnCancel);
+		southPanel.add(btnAdd);
+		
+		// east panel
 		JPanel eastPanel = new JPanel();
 		eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.PAGE_AXIS));
 		eastPanel.setBorder(BorderFactory.createEmptyBorder(MARGIN, MARGIN, MARGIN, MARGIN));
