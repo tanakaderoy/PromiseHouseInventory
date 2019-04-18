@@ -107,7 +107,7 @@ public class WindowMain {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			Connection con = DriverManager.getConnection("jdbc:sqlite:test.db");
-			String query1 = "SELECT * FROM INVENTORYVIEW ";
+			String query1 = "SELECT * FROM INVENTORY ";
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 
@@ -133,7 +133,7 @@ public class WindowMain {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			Connection con = DriverManager.getConnection("jdbc:sqlite:test.db");
-			String query1 = "SELECT * FROM INVENTORY ";
+			String query1 = "SELECT * FROM HISTORY ";
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 
@@ -381,14 +381,14 @@ public class WindowMain {
 			}
 		});
 
-		historyTable.addFocusListener(new FocusListener() {
+		tableDisplayItem.addFocusListener(new FocusListener() {
 			//DefaultTableModel model = (DefaultTableModel)tableDisplayItem.getModel();
 
 			@Override
 			public void focusLost(FocusEvent e) {
 				// TODO Auto-generated method stub
 				if(!deleteButton.getModel().isPressed()) {
-					historyTable.getSelectionModel().clearSelection();
+					tableDisplayItem.getSelectionModel().clearSelection();
 				}
 
 			}
@@ -514,12 +514,12 @@ public class WindowMain {
 		});
 
 
-		historyTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+		tableDisplayItem.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
 				// TODO Auto-generated method stub
-				int row = historyTable.getSelectedRow();
+				int row = tableDisplayItem.getSelectedRow();
 				if(row>=0) {
 					deleteButton.setEnabled(true);
 				}else {
@@ -746,8 +746,8 @@ public class WindowMain {
 	}
 	
 	public void deleteSelectedRow() {
-		int row = historyTable.getSelectedRow();
-		DefaultTableModel model= (DefaultTableModel)historyTable.getModel();
+		int row = tableDisplayItem.getSelectedRow();
+		DefaultTableModel model= (DefaultTableModel)tableDisplayItem.getModel();
 
 		String selected = model.getValueAt(row, 0).toString();
 		System.out.println(selected);
@@ -766,7 +766,7 @@ public class WindowMain {
 				conn.close();
 			}
 			catch (Exception w) {
-				JOptionPane.showMessageDialog(historyTable, "Connection Error!");
+				JOptionPane.showMessageDialog(tableDisplayItem, "Connection Error!");
 			}          
 		}
 
@@ -779,11 +779,11 @@ public class WindowMain {
 			Connection con = DriverManager.getConnection("jdbc:sqlite:test.db");
 			String query1;
 			if(startDate.isEmpty() && endDate.isEmpty() ) {
-				query1 = "SELECT * FROM 'INVENTORYVIEW' ";
+				query1 = "SELECT * FROM 'INVENTORY' ";
 
 			}else {
 
-				query1 = "SELECT * FROM 'INVENTORYVIEW' " +
+				query1 = "SELECT * FROM 'INVENTORY' " +
 						"where `DATE` between  '"+startDate+"' and '"+endDate+"'"+
 						"ORDER BY `DATE` desc;";
 			}

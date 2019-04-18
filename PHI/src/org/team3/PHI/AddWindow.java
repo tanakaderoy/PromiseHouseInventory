@@ -295,6 +295,7 @@ public class AddWindow {
 					System.out.println("Product has been added sucessfully!");
 					try {
 						WindowMain.tableUpdated();
+						WindowMain.historyTableUpdated();
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
