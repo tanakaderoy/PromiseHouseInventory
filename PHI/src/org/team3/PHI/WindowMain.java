@@ -253,7 +253,7 @@ public class WindowMain {
 			row.add(list.get(i).getQuantity());
 			row.add(list.get(i).getDonor());
 			row.add(list.get(i).getCategory());
-			String date = "";//+fmt1.format(fmt.parse(list.get(i).getDate()))+"";
+			String date = ""+fmt1.format(fmt.parse(list.get(i).getDate()))+"";
 			row.add(date);
 
 
