@@ -343,10 +343,10 @@ public class WindowMain {
 		});
 		buttonPanel.add(scanInButton);
 
-
-		JButton scanOutButton = new JButton("Scan Out");
-
-		buttonPanel.add(scanOutButton);
+		
+		Component horizontalStrut = Box. createHorizontalStrut(30);
+		buttonPanel.add(horizontalStrut);
+		
 
 		eastPanel.add(buttonPanel);
 
