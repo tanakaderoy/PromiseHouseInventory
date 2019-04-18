@@ -11,23 +11,15 @@ public class MainPHI {
 	public static void main(String[] args) {
 		
 		try {
-			com.jtattoo.plaf.acryl.AcrylLookAndFeel.setTheme("Red");
-            // Set System Look&Feel
-			UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//			com.jtattoo.plaf.acryl.AcrylLookAndFeel.setTheme("Red");
+//            // Set System Look&Feel
+//			UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
     } 
-    catch (UnsupportedLookAndFeelException e) {
+    catch (UnsupportedLookAndFeelException |ClassNotFoundException | InstantiationException | IllegalAccessException e) {
        // handle exception
     }
-    catch (ClassNotFoundException e) {
-       // handle exception
-    }
-    catch (InstantiationException e) {
-       // handle exception
-    }
-    catch (IllegalAccessException e) {
-       // handle exception
-    }
-
+    
      //Create and show the GUI.
 
 		// TODO Auto-generated method stub
@@ -91,7 +83,8 @@ public class MainPHI {
 						" Id,UPC,PRODUCT_NAME,\r\n" + 
 						"PRICE,SUM(QUANTITY) AS QUANTITY,\r\n" + 
 						"WEIGHT, DONOR,CATEGORY,`DATE` \r\n" + 
-						"FROM HISTORY;";
+						"FROM HISTORY \r\n"
+						+ "GROUP BY UPC;";
 			System.out.println(sql);
 			stmt.executeUpdate(sql);
 			stmt.close();

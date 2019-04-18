@@ -6,6 +6,7 @@ package org.team3.PHI;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -107,7 +108,7 @@ public class WindowMain {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			Connection con = DriverManager.getConnection("jdbc:sqlite:test.db");
-			String query1 = "SELECT * FROM INVENTORY ";
+			String query1 = "SELECT * FROM INVENTORYVIEW ";
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(query1);
 
@@ -217,7 +218,7 @@ public class WindowMain {
 		model.setRowCount(0);
 		tableDisplayItem.setRowHeight(30);
 		tableDisplayItem.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-
+	
 		TableColumnAdjuster tca = new TableColumnAdjuster(tableDisplayItem);
 		tca.adjustColumns();
 		tableDisplayItem.setAutoCreateRowSorter(true);
@@ -341,6 +342,7 @@ public class WindowMain {
 
 			}
 		});
+		scanInButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		buttonPanel.add(scanInButton);
 
 		
@@ -352,10 +354,9 @@ public class WindowMain {
 
 		eastPanel.add(Box.createVerticalGlue());
 
+		JPanel centerPanel = new JPanel(new GridLayout(2,1));
 
-		JPanel centerPanel = new JPanel(new GridLayout(1,2));
-
-
+		
 
 		JScrollPane scrollPane = new JScrollPane();
 		JScrollPane scrollPane1 = new JScrollPane();
@@ -367,7 +368,9 @@ public class WindowMain {
 		historyTable = new JTable();
 		scrollPane1.setViewportView(historyTable);
 		frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
-
+		
+		//centerPanel.setMaximumSize(new Dimension(100, 100));
+		
 		tableDisplayItem = new JTable();
 		JButton deleteButton = new JButton("Delete");
 		deleteButton.setEnabled(false);
@@ -538,6 +541,7 @@ public class WindowMain {
 			}
 		});
 		JButton generateReportButton = new JButton("Generate Excel");
+		generateReportButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		generateExcel.addActionListener(new ActionListener() {
 
 			@Override
@@ -604,7 +608,7 @@ public class WindowMain {
 
 		eastPanel.add(generateReportButton);
 		northPanel.add(btnFilterByDate);
-		northPanel.add(deleteButton);
+		buttonPanel.add(deleteButton);
 
 
 		frame.addFocusListener(new FocusListener() {
@@ -638,6 +642,10 @@ public class WindowMain {
 			}
 		});
 
+		
+		System.out.println("Preferred table: " + scrollPane.getPreferredSize().getWidth() );
+		tableDisplayItem.setPreferredScrollableViewportSize(new Dimension(0, 200));
+		historyTable.setPreferredScrollableViewportSize(new Dimension(0, 200));
 		frame.pack();
 
 		frame.setMinimumSize(frame.getPreferredSize());

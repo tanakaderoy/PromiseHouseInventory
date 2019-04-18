@@ -87,7 +87,7 @@ public class ScanWindow {
 				deleteFromDatabase();
 				frame.setVisible(false);
 				try {
-					WindowMain2.tableUpdated();
+					WindowMain.tableUpdated();
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
