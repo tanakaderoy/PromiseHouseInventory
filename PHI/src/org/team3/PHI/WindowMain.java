@@ -419,7 +419,7 @@ public class WindowMain {
 		northPanel.setBorder(BorderFactory.createEmptyBorder(MARGIN, MARGIN, MARGIN, MARGIN));
 
 		searchTextField = new JTextField();
-		searchTextPrompt = new TextPrompt("Search by UPC or Product Name", searchTextField);
+		searchTextPrompt = new TextPrompt("Search by UPC or Product Name or Donor Name", searchTextField);
 
 		northPanel.add(searchTextField);
 		searchTextField.setColumns(15);
@@ -659,7 +659,7 @@ public class WindowMain {
 		RowFilter<DefaultTableModel, Object> rf = null;
 		//If current expression doesn't parse, don't update.
 		try {
-			rf = RowFilter.orFilter(Arrays.asList(RowFilter.regexFilter("^" +searchTextField.getText()+"$",1),
+			rf = RowFilter.orFilter(Arrays.asList(RowFilter.regexFilter("^" +searchTextField.getText()+"$",1),RowFilter.regexFilter("(?i)" +searchTextField.getText(), 6),
 					RowFilter.regexFilter("(?i)" +searchTextField.getText(), 2)));
 			System.out.println(rf);
 			System.out.println(searchTextField.getText());
