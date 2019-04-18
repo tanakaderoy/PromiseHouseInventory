@@ -101,7 +101,7 @@ public class AddWindow {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 961, 622);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		//frame.getContentPane().setLayout(null);
+		
 
 
 
@@ -109,35 +109,27 @@ public class AddWindow {
 
 
 		upcText = new JTextField();
-		//upcText.setBounds(428, 68, 86, 20);
-
-		//frame.getContentPane().add(upcText);
+		
 		upcText.setColumns(10);
 
 		productText = new JTextField();
-		//productText.setBounds(416, 153, 144, 20);
-		//frame.getContentPane().add(productText);
+	
 		productText.setColumns(10);
 
 		quantityText = new JTextField();
-		//quantityText.setBounds(406, 239, 163, 22);
-		//frame.getContentPane().add(quantityText);
+		
 		quantityText.setColumns(10);
 
 		txtpnUpcNumber = new JLabel();
 		txtpnUpcNumber.setText("UPC NUMBER");
-		//txtpnUpcNumber.setBounds(416, 28, 188, 31);
-		//frame.getContentPane().add(txtpnUpcNumber);
+		
 
 		txtpnProductName = new JLabel();
 		txtpnProductName.setText("PRODUCT NAME");
-		//txtpnProductName.setBounds(406, 104, 218, 38);
-		//frame.getContentPane().add(txtpnProductName);
-
+		
 		txtpnQuantity = new JLabel();
 		txtpnQuantity.setText("QUANTITY");
-		//txtpnQuantity.setBounds(406, 188, 154, 39);
-		//frame.getContentPane().add(txtpnQuantity);
+		
 		File newFile = new File("Categories.txt");
 
 		if(newFile.length() == 0) {
@@ -157,51 +149,37 @@ public class AddWindow {
 		}
 
 		txtpnCategory = new JLabel("CATEGORY");
-		//txtpnCategory.setBounds(406, 277, 153, 31);
-		//frame.getContentPane().add(txtpnCategory);
+		
 
 		dateChooser = new JDateChooser();
-		//dateChooser.setBounds(406, 399, 181, 39);
+		
 		dateChooser.setToolTipText("Choose Date");
 
-		//frame.getContentPane().add(dateChooser);
+		
 
 		String[] array = categories.toArray(new String[categories.size()]);
 
 		comboBox = new JComboBox<String>(array);
-		//comboBox.setBounds(406, 314, 163, 39);
-
-		//frame.getContentPane().add(comboBox);
-
+		
 		JLabel lblDate = new JLabel("DATE");
 
-		//lblDate.setBounds(406, 356, 115, 33);
-		//frame.getContentPane().add(lblDate);
+	
 
 
 		JLabel lblDonor = new JLabel("Donor");
-		//lblDonor.setBounds(196, 188, 115,33);
-		//frame.getContentPane().add(lblDonor);
+		
 		donorTextField = new JTextField();
-		//donorTextField.setBounds(141, 230, 150,30);
-		//frame.getContentPane().add(donorTextField);
-
+	
 
 		JLabel lblWeight = new JLabel("Weight");
-		//lblWeight.setBounds(196,277, 115,33);
-		//frame.getContentPane().add(lblWeight);
+		
 		weightTextField = new JTextField();
-		//weightTextField.setBounds(141,314, 100, 30);
-		//frame.getContentPane().add(weightTextField);
 
 
 		JLabel lblPrice = new JLabel("Price");
-		//lblPrice.setBounds(196, 107, 115, 33);
-		//frame.getContentPane().add(lblPrice);
-
+		
 		priceTextField = new JTextField();
-		//priceTextField.setBounds(141, 144, 236, 39);
-		//frame.getContentPane().add(priceTextField);
+		
 		priceTextField.setColumns(10);
 
 
@@ -212,9 +190,7 @@ public class AddWindow {
 
 			}
 		});
-		//btnCancel.setBounds(262, 470, 188, 20);
-		//frame.getContentPane().add(btnCancel);
-
+		
 		btnAdd = new JButton("ADD");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -307,12 +283,8 @@ public class AddWindow {
 
 
 		});
-		//btnAdd.setBounds(575, 469, 163, 20);
-		//frame.getContentPane().add(btnAdd);
-
 		addCategoryTextField = new JTextField();
-		//addCategoryTextField.setBounds(579, 323, 121, 20);
-		//frame.getContentPane().add(addCategoryTextField);
+		
 		addCategoryTextField.setColumns(10);
 
 		txtSearchPrompt = new TextPrompt("Add Extra Categories", addCategoryTextField);
@@ -333,12 +305,8 @@ public class AddWindow {
 				addCategoryTextField.setText(null);
 			}
 		});
-		//btnAddCategory.setBounds(724, 322, 105, 23);
-		//frame.getContentPane().add(btnAddCategory);
 
 		JButton btnBack = new JButton("Back");
-		//btnBack.setBounds(26, 23, 171, 41);
-		//frame.getContentPane().add(btnBack);
 		btnBack.addActionListener(new ActionListener() {
 
 			@Override
