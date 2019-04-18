@@ -510,6 +510,8 @@ public class AddWindow {
 				priceTextField.setText(itemsList2.get(0).getPrice().toString());
 				comboBox.setSelectedItem(""+itemsList2.get(0).getCategory()+"");
 				quantityText.setText(Integer.toString(itemsList2.get(0).getQuantity()));
+				donorTextField.setText(itemsList2.get(0).getDonor());
+				weightTextField.setText(""+itemsList2.get(0).getWeight()+"");
 				String date= (itemsList2.get(0).getDate());
 				Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
 				dateChooser.setDateFormatString("MM-dd-yyyy");

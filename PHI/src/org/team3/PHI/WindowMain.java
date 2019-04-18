@@ -651,8 +651,8 @@ public class WindowMain {
 		RowFilter<DefaultTableModel, Object> rf = null;
 		//If current expression doesn't parse, don't update.
 		try {
-			rf = RowFilter.orFilter(Arrays.asList(RowFilter.regexFilter("^" +searchTextField.getText()+"$",0),
-					RowFilter.regexFilter("(?i)" +searchTextField.getText(), 1)));
+			rf = RowFilter.orFilter(Arrays.asList(RowFilter.regexFilter("^" +searchTextField.getText()+"$",1),
+					RowFilter.regexFilter("(?i)" +searchTextField.getText(), 2)));
 			System.out.println(rf);
 			System.out.println(searchTextField.getText());
 		} catch (java.util.regex.PatternSyntaxException e) {
