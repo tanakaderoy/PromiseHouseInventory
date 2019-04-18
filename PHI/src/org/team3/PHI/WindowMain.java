@@ -221,7 +221,7 @@ public class WindowMain {
 		TableColumnAdjuster tca = new TableColumnAdjuster(tableDisplayItem);
 		tca.adjustColumns();
 		tableDisplayItem.setAutoCreateRowSorter(true);
-
+		model.addColumn("ID");
 		model.addColumn("UPC");
 		model.addColumn("PRODUCT NAME");
 		model.addColumn("Price");
@@ -246,6 +246,7 @@ public class WindowMain {
 
 		for(int i=0; i<list.size();i++) {
 			row = new Vector<Object>();
+			row.add(list.get(i).getId());
 			row.add(list.get(i).getUPC());
 			row.add(list.get(i).getProductName());
 			row.add(currencyFormatter.format(list.get(i).getPrice()));
@@ -377,6 +378,14 @@ public class WindowMain {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				deleteSelectedRow();
+				try {
+					historyTableUpdated();
+					tableUpdated();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 
 			}
 		});
@@ -675,6 +684,7 @@ public class WindowMain {
 
 		for(int i=0; i<list.size();i++) {
 			row = new Vector<Object>();
+			row.add(list.get(i).getId());
 			row.add(list.get(i).getUPC());
 			row.add(list.get(i).getProductName());
 			row.add(currencyFormatter.format(list.get(i).getPrice()));
@@ -834,6 +844,8 @@ public class WindowMain {
 		Vector<Object> row;
 		for(int i=0; i<list2.size();i++) {
 			row = new Vector<Object>();
+			row.add(list2.get(i).getId());
+
 			row.add(list2.get(i).getUPC());
 			row.add(list2.get(i).getProductName());
 			row.add(currencyFormatter.format(list2.get(i).getPrice()));
